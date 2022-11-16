@@ -8,6 +8,7 @@ import '../src/interfaces/augment-types';
 
 // all type stuff, the only one we are using here
 import type { Hash256, Categories, LinkedAsset, UsageLicense } from '../src/interfaces';
+import { BTreeMap, Compact, Enum, Option, Struct, Text, U256, U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types-codec';
 
 // external imports
 import { ApiPromise } from '@polkadot/api';
@@ -16,43 +17,41 @@ import { createType } from '@polkadot/types';
 // our local stuff
 import * as definitions from '../src/interfaces/definitions';
 
-async function main (): Promise<void> {
-  // extract all types from definitions - fast and dirty approach, flatted on 'types'
-  const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+async function main(): Promise<void> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
-  const api = await ApiPromise.create({
-    types: {
-      ...types,
-      // aliases that don't do well as part of interfaces
-    //   'voting::VoteType': 'VoteType',
-    //   'voting::TallyType': 'TallyType',
-      // chain-specific overrides
-    //   Keys: 'SessionKeys4'
-    }
-  });
-
-  // get a query
-  const recordOpt = await api.tx.voting.voteRecords(123);
-
-  const upload = await api.tx.protos.upload()
-
-  // the types match with what we expect here
-  let firstRecord: VoteRecord | null = recordOpt.unwrapOr(null);
-  console.log(firstRecord?.toHuman());
-
-  // it even does work for arrays & subscriptions
-  api.query.signaling.activeProposals((results): void => {
-    results.forEach(([hash, blockNumber]): void => {
-      console.log(hash.toHex(), ':', blockNumber.toNumber());
+    const api = await ApiPromise.create({
+        types: {
+            ...types,
+        }
     });
-  });
 
-  // even createType works, allowing for our types to be used
-  console.log(`Balance2 bitLength:`, [
-    api.createType('Balance2').bitLength(),
-    api.registry.createType('Balance2').bitLength(),
-    createType(api.registry, 'Balance2').bitLength()
-  ]);
+    const keyring = new Keyring({ type: 'sr25519' });
+    keyring.setSS58Format(93);
+    let alice = keyring.addFromUri('//Alice');
+
+    let references: Vec<U8aFixed> = [];
+    let category: Categories = 'Text';
+    let tags: string[] = [];
+    let linked_asset: Option<LinkedAsset> = null;
+    let license: UsageLicense = 'Closed';
+    let data = [...Buffer.from('Proto-Sino-Tibetan')];
+    const upload = api.tx.protos.upload(
+        references,
+        category,
+        tags,
+        linked_asset,
+        license,
+        data
+    );
+
+    try {
+        await upload.signAndSend(alice);
+    } catch (e) {
+        console.log('it failed, duibuqi')
+    }
+
 }
 
 await main();
