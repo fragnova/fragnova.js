@@ -1,8 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BTreeMap, Bytes, Compact, Enum, Option, Struct, Text, Vec, bool, u128, u64 } from '@polkadot/types-codec';
+import type { BTreeMap, Bytes, Compact, Enum, Option, Struct, Text, Vec, bool, u128, u32, u64 } from '@polkadot/types-codec';
 import type { AccountId, AssetId, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { Hash256 } from 'sample-polkadotjs-typegen/interfaces/protos';
 
 /** @name FragmentBuyOption */
 export interface FragmentBuyOption extends Enum {
@@ -43,6 +44,9 @@ export interface FragmentMetadata extends Struct {
   readonly currency: Option<AssetId>;
 }
 
+/** @name FragmentPerms */
+export interface FragmentPerms extends u32 {}
+
 /** @name GetDefinitionsParams */
 export interface GetDefinitionsParams extends Struct {
   readonly desc: bool;
@@ -56,8 +60,8 @@ export interface GetDefinitionsParams extends Struct {
 /** @name GetInstanceOwnerParams */
 export interface GetInstanceOwnerParams extends Struct {
   readonly definition_hash: Text;
-  readonly edition_id: Unit;
-  readonly copy_id: Unit;
+  readonly edition_id: InstanceUnit;
+  readonly copy_id: InstanceUnit;
 }
 
 /** @name GetInstancesParams */
@@ -71,6 +75,9 @@ export interface GetInstancesParams extends Struct {
   readonly only_return_first_copies: bool;
 }
 
+/** @name InstanceUnit */
+export interface InstanceUnit extends u64 {}
+
 /** @name PublishingData */
 export interface PublishingData extends Struct {
   readonly price: Compact<u128>;
@@ -83,8 +90,5 @@ export interface PublishingData extends Struct {
 export interface UniqueOptions extends Struct {
   readonly mutable: bool;
 }
-
-/** @name Unit */
-export interface Unit extends u64 {}
 
 export type PHANTOM_FRAGMENTS = 'fragments';

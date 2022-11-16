@@ -68,10 +68,10 @@ import type { ClassDetails, ClassId, ClassMetadata, DepositBalance, DepositBalan
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
 import type { AssetInstance, AssetInstanceV0, AssetInstanceV1, AssetInstanceV2, BodyId, BodyPart, DoubleEncodedCall, Fungibility, FungibilityV0, FungibilityV1, FungibilityV2, InboundStatus, InstructionV2, InteriorMultiLocation, Junction, JunctionV0, JunctionV1, JunctionV2, Junctions, JunctionsV1, JunctionsV2, MultiAsset, MultiAssetFilter, MultiAssetFilterV1, MultiAssetFilterV2, MultiAssetV0, MultiAssetV1, MultiAssetV2, MultiAssets, MultiAssetsV1, MultiAssetsV2, MultiLocation, MultiLocationV0, MultiLocationV1, MultiLocationV2, NetworkId, OriginKindV0, OriginKindV1, OriginKindV2, OutboundStatus, Outcome, QueryId, QueryStatus, QueueConfigData, Response, ResponseV0, ResponseV1, ResponseV2, ResponseV2Error, ResponseV2Result, VersionMigrationStage, VersionedMultiAsset, VersionedMultiAssets, VersionedMultiLocation, VersionedResponse, VersionedXcm, WeightLimitV2, WildFungibility, WildFungibilityV0, WildFungibilityV1, WildFungibilityV2, WildMultiAsset, WildMultiAssetV1, WildMultiAssetV2, Xcm, XcmAssetId, XcmError, XcmErrorV0, XcmErrorV1, XcmErrorV2, XcmOrder, XcmOrderV0, XcmOrderV1, XcmOrderV2, XcmOrigin, XcmOriginKind, XcmV0, XcmV1, XcmV2, XcmVersion, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
-import type { DiscordID, EthLock, EthLockUpdate, ExternalID } from 'sample-polkadotjs-typegen/interfaces/accounts';
-import type { DetachHash, DetachInternalData, DetachRequest, ExportData, SupportedChains } from 'sample-polkadotjs-typegen/interfaces/detach';
-import type { FragmentBuyOption, FragmentDefinition, FragmentInstance, FragmentMetadata, GetDefinitionsParams, GetInstanceOwnerParams, GetInstancesParams, PublishingData, UniqueOptions, Unit } from 'sample-polkadotjs-typegen/interfaces/fragments';
-import type { AccountsInfo, AudioCategories, BinaryCategories, Categories, GetGenealogyParams, GetProtosParams, Hash128, LinkSource, LinkedAsset, ModelCategories, Proto, ProtoOwner, ProtoPatch, ShardsFormat, ShardsScriptInfo, ShardsTrait, TextCategories, TextureCategories, UsageLicense, VectorCategories, VideoCategories } from 'sample-polkadotjs-typegen/interfaces/protos';
+import type { DiscordID, EthLock, ExternalID } from 'sample-polkadotjs-typegen/interfaces/accounts';
+import type { DetachHash, ExportData, SupportedChains } from 'sample-polkadotjs-typegen/interfaces/detach';
+import type { FragmentBuyOption, FragmentDefinition, FragmentInstance, FragmentMetadata, FragmentPerms, GetDefinitionsParams, GetInstanceOwnerParams, GetInstancesParams, InstanceUnit, PublishingData, UniqueOptions } from 'sample-polkadotjs-typegen/interfaces/fragments';
+import type { AccountsInfo, AudioCategories, BinaryCategories, Categories, GetGenealogyParams, GetProtosParams, Hash128, Hash256, LinkSource, LinkedAsset, ModelCategories, Proto, ProtoOwner, ProtoPatch, ShardsFormat, ShardsScriptInfo, ShardsTrait, TextCategories, TextureCategories, UsageLicense, VectorCategories, VideoCategories } from 'sample-polkadotjs-typegen/interfaces/protos';
 
 declare module '@polkadot/types/types/registry' {
   interface InterfaceTypes {
@@ -337,8 +337,6 @@ declare module '@polkadot/types/types/registry' {
     DepositBalanceOf: DepositBalanceOf;
     DestroyWitness: DestroyWitness;
     DetachHash: DetachHash;
-    DetachInternalData: DetachInternalData;
-    DetachRequest: DetachRequest;
     Digest: Digest;
     DigestItem: DigestItem;
     DigestOf: DigestOf;
@@ -415,7 +413,6 @@ declare module '@polkadot/types/types/registry' {
     EthFilterTopicInner: EthFilterTopicInner;
     EthHeader: EthHeader;
     EthLock: EthLock;
-    EthLockUpdate: EthLockUpdate;
     EthLog: EthLog;
     EthReceipt: EthReceipt;
     EthReceiptV0: EthReceiptV0;
@@ -497,6 +494,7 @@ declare module '@polkadot/types/types/registry' {
     FragmentDefinition: FragmentDefinition;
     FragmentInstance: FragmentInstance;
     FragmentMetadata: FragmentMetadata;
+    FragmentPerms: FragmentPerms;
     FullIdentification: FullIdentification;
     FunctionArgumentMetadataLatest: FunctionArgumentMetadataLatest;
     FunctionArgumentMetadataV10: FunctionArgumentMetadataV10;
@@ -547,6 +545,7 @@ declare module '@polkadot/types/types/registry' {
     H64: H64;
     Hash: Hash;
     Hash128: Hash128;
+    Hash256: Hash256;
     HeadData: HeadData;
     Header: Header;
     HeaderPartial: HeaderPartial;
@@ -600,6 +599,7 @@ declare module '@polkadot/types/types/registry' {
     InstanceDetails: InstanceDetails;
     InstanceId: InstanceId;
     InstanceMetadata: InstanceMetadata;
+    InstanceUnit: InstanceUnit;
     InstantiateRequest: InstantiateRequest;
     InstantiateRequestV1: InstantiateRequestV1;
     InstantiateRequestV2: InstantiateRequestV2;
@@ -1131,7 +1131,6 @@ declare module '@polkadot/types/types/registry' {
     UnappliedSlashOther: UnappliedSlashOther;
     UncleEntryItem: UncleEntryItem;
     UniqueOptions: UniqueOptions;
-    Unit: Unit;
     UnknownTransaction: UnknownTransaction;
     UnlockChunk: UnlockChunk;
     UnrewardedRelayer: UnrewardedRelayer;

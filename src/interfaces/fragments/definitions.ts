@@ -19,8 +19,8 @@ export default {
         },
         GetInstanceOwnerParams: {
             definition_hash: 'String', // "Hash128", // using `String` because Polkadot-JS has a problem fixed-sized arrays: https://github.com/encointer/pallets/pull/86
-            edition_id: "Unit",
-            copy_id: "Unit",
+            edition_id: "InstanceUnit",
+            copy_id: "InstanceUnit",
         },
         FragmentMetadata: {
             name: "Vec<u8>",
@@ -61,7 +61,7 @@ export default {
                 UniqueData: "Vec<u8>"
             }
         },
-
-        "Unit": "u64",
+        InstanceUnit: "u64",
+        FragmentPerms: "u32"
     }
 }

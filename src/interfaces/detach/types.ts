@@ -3,7 +3,8 @@
 
 import type { Bytes, Compact, Enum, Struct, u64 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { Hash128 } from 'sample-polkadotjs-typegen/interfaces/protos';
+import type { InstanceUnit } from 'sample-polkadotjs-typegen/interfaces/fragments';
+import type { Hash128, Hash256 } from 'sample-polkadotjs-typegen/interfaces/protos';
 
 /** @name DetachHash */
 export interface DetachHash extends Enum {
@@ -12,23 +13,6 @@ export interface DetachHash extends Enum {
   readonly isInstance: boolean;
   readonly asInstance: ITuple<[Hash128, Compact<InstanceUnit>, Compact<InstanceUnit>]>;
   readonly type: 'Proto' | 'Instance';
-}
-
-/** @name DetachInternalData */
-export interface DetachInternalData extends Struct {
-  readonly public: Public;
-  readonly hash: DetachHash;
-  readonly target_chain: SupportedChains;
-  readonly target_account: Bytes;
-  readonly remote_signature: Bytes;
-  readonly nonce: u64;
-}
-
-/** @name DetachRequest */
-export interface DetachRequest extends Struct {
-  readonly hash: DetachHash;
-  readonly target_chain: SupportedChains;
-  readonly target_account: Bytes;
 }
 
 /** @name ExportData */

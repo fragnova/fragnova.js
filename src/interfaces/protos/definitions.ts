@@ -143,6 +143,7 @@ export default {
 
         BlockHash: "Hash",
         Hash128: "[u8; 16]",
+        Hash256: "[u8; 32]",
 
 
         

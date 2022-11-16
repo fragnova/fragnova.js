@@ -76,6 +76,9 @@ export interface GetProtosParams extends Struct {
 /** @name Hash128 */
 export interface Hash128 extends U8aFixed {}
 
+/** @name Hash256 */
+export interface Hash256 extends U8aFixed {}
+
 /** @name LinkedAsset */
 export interface LinkedAsset extends Enum {
   readonly isErc721: boolean;

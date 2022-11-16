@@ -13,19 +13,6 @@ export default {
                 'EthereumGoerli',
             ]
         },
-        DetachRequest: {
-            hash: 'DetachHash',
-            target_chain: 'SupportedChains',
-            target_account: 'Vec<u8>',
-        },
-        DetachInternalData: {
-            public: 'Public',
-            hash: 'DetachHash',
-            target_chain: 'SupportedChains',
-            target_account: 'Vec<u8>',
-            remote_signature: 'Vec<u8>',
-            nonce: 'u64',
-        },
         ExportData: {
             chain: 'SupportedChains',
             owner: 'Vec<u8>',
