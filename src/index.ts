@@ -3,8 +3,8 @@
 // Because of the tsconfig override, we could import from '@polkadot/{api, types}/augment'
 // import './interfaces/augment-api';
 // import './interfaces/augment-types';
-import '@polkadot/api/augment'
-import '@polkadot/types/augment'
+import '@polkadot/api/augment';
+import '@polkadot/types/augment';
 
 // all type stuff, the only one we are using here
 // import {AccountsInfo} from "sample-polkadotjs-typegen/interfaces/protos";

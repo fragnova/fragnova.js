@@ -10,7 +10,7 @@
         "@polkadot/types/augment": ["src/interfaces/augment-types.ts"]
       },
       // some other options, whatever you want for your environment
-      "target": "esnext",
+      "target": "es6",
       "module": "esnext",
       "jsx": "preserve",
       "declaration": true,
@@ -30,5 +30,8 @@
     "exclude": [
       "build/**/*",
       "node_modules"
-    ]
+    ],
+    "ts-node": {
+      "esm": true
+    }
   }
