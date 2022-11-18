@@ -1,4 +1,6 @@
 {
+  "main": "index.js",
+
    "scripts": {
     "build": "yarn generate:defs && yarn generate:meta",
     "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package sample-polkadotjs-typegen/interfaces --input ./src/interfaces --endpoint ./fragnova.json",
@@ -6,10 +8,10 @@
     "lint": "tsc --noEmit --pretty"
   },
   "dependencies": {
-    "@polkadot/api": "^2.3.1"
+    "@polkadot/api": "^9.8.2"
   },
   "devDependencies": {
-    "@polkadot/typegen": "^9.7.1",
+    "@polkadot/typegen": "^9.8.2",
     "ts-node": "^8.10.2",
     "typescript": "^4.8.4"
   }
