@@ -1,10 +1,10 @@
 // We need to import the augmented definitions "somewhere" in our project, however since we have
 // it in tsconfig as an override and the api/types has imports, it is not strictly required here.
 // Because of the tsconfig override, we could import from '@polkadot/{api, types}/augment'
-// import './interfaces/augment-api';
-// import './interfaces/augment-types';
-import '@polkadot/api/augment';
-import '@polkadot/types/augment';
+import './interfaces/augment-api';
+import './interfaces/augment-types';
+// import '@polkadot/api/augment';
+// import '@polkadot/types/augment';
 
 // all type stuff, the only one we are using here
 // import {AccountsInfo} from "sample-polkadotjs-typegen/interfaces/protos";
@@ -26,14 +26,26 @@ async function main (): Promise<void> {
         }
     });
 
-    let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
-    let shouldFail: ProtosCategories = api.registry.createType('ProtosCategories', {text: "IEUDNFEWJNVK"});
+    let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories' as never, {text: "plain"});
+    // let shouldFail: ProtosCategories = api.registry.createType('ProtosCategories', {text: "IEUDNFEWJNVK"});
 
-    api.tx.protos.upload(shouldFail)
+    try {
+        api.tx.protos.upload(shouldWork)
+    } catch(e){
+        console.log('error');
+        console.log(e);
+    }
 
-    console.log(shouldWork);
-    console.log(shouldFail);
+    // console.log(shouldWork);
+    // console.log(shouldFail);
 
 }
 
-await main();
+main();
+
+// async function main (): Promise<void> {
+//     console.log('hiii');
+// }
+
+// main();
+

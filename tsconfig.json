@@ -10,8 +10,8 @@
         "@polkadot/types/augment": ["src/interfaces/augment-types.ts"]
       },
       // some other options, whatever you want for your environment
-      "target": "es6",
-      "module": "esnext",
+      "target": "es5",
+      "module": "commonjs",
       "jsx": "preserve",
       "declaration": true,
       "strict": true,
@@ -23,6 +23,8 @@
       "esModuleInterop": true,
       "baseUrl": ".",
       "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
+      "outDir": "./dist",
       "typeRoots": [
         "./node_modules/@types"
       ]
