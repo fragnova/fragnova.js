@@ -26,11 +26,14 @@ async function main (): Promise<void> {
         }
     });
 
-    let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories' as never, {text: "plain"});
+    let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain", category: [] });
+    // let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
+
     // let shouldFail: ProtosCategories = api.registry.createType('ProtosCategories', {text: "IEUDNFEWJNVK"});
 
     try {
-        api.tx.protos.upload(shouldWork)
+        api.tx.protos.upload(shouldFail)
+        // api.tx.protos.upload({text: "plain"});
     } catch(e){
         console.log('error');
         console.log(e);
