@@ -26,7 +26,7 @@ async function protoUpload ( ): Promise<void> {
         }
     });
 
-    let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
+    let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
     // let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
     // let shouldFail: ProtosCategories = api.registry.createType('ProtosCategories', {text: "IEUDNFEWJNVK"});
     
@@ -39,7 +39,7 @@ async function protoUpload ( ): Promise<void> {
     const alice = keyring.addFromUri('//Alice');
 
     try {
-        const txHash = await api.tx.protos.upload([], shouldWork, ['nar_character'], null, 'closed', JSON.stringify(data)).signAndSend(alice);
+        const txHash = await api.tx.protos.upload([], protoCategory, ['nar_character'], null, 'closed', JSON.stringify(data)).signAndSend(alice);
         console.log('sent with transaction hash', txHash.toHex());
     } catch(e){
         console.log('Error: ' + e);
