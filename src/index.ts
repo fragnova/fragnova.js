@@ -10,13 +10,13 @@ import './interfaces/augment-types';
 // import {AccountsInfo} from "sample-polkadotjs-typegen/interfaces/protos";
 
 // external imports
-import { ApiPromise } from '@polkadot/api';
+import { ApiPromise, Keyring } from '@polkadot/api';
 
 // our local stuff
 import * as definitions from './interfaces/definitions';
-import {ProtosCategories} from "@polkadot/types/lookup";
+import { ProtosCategories } from "@polkadot/types/lookup";
 
-async function main (): Promise<void> {
+async function protoUpload ( ): Promise<void> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -26,29 +26,46 @@ async function main (): Promise<void> {
         }
     });
 
-    let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain", category: [] });
+    let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
     // let shouldWork: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
-
     // let shouldFail: ProtosCategories = api.registry.createType('ProtosCategories', {text: "IEUDNFEWJNVK"});
+    
+    const data = {
+        characterName: 'The Scribe 123'
+    };
+
+    const keyring = new Keyring({type: 'sr25519'});
+    keyring.setSS58Format(93);
+    const alice = keyring.addFromUri('//Alice');
 
     try {
-        api.tx.protos.upload(shouldFail)
-        // api.tx.protos.upload({text: "plain"});
+        const txHash = await api.tx.protos.upload([], shouldWork, ['nar_character'], null, 'closed', JSON.stringify(data)).signAndSend(alice);
+        console.log('sent with transaction hash', txHash.toHex());
     } catch(e){
-        console.log('error');
-        console.log(e);
+        console.log('Error: ' + e);
     }
-
-    // console.log(shouldWork);
-    // console.log(shouldFail);
-
 }
 
-main();
 
-// async function main (): Promise<void> {
-//     console.log('hiii');
-// }
+async function protoSetMetadata(): Promise<void> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
-// main();
+    const api = await ApiPromise.create({
+        types: {
+            ...types,
+        }
+    });
 
+    const keyring = new Keyring({type: 'sr25519'});
+    keyring.setSS58Format(93);
+    const alice = keyring.addFromUri('//Alice');
+
+    try {
+        const txHash = await api.tx.protos.setMetadata('0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413', 'title', 'test title 01')
+            .signAndSend(alice);
+        console.log('sent with transaction hash', txHash.toHex());
+    } catch(e){
+        console.log('Error: ' + e);
+    }
+}
