@@ -207,6 +207,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     "to-fast-properties" "^2.0.0"
 
+"@fragcolor/protos@^0.0.7":
+  "integrity" "sha512-SKJCsfXB9G78vxWD7EhdR7/r1T0gBSER6TNJSJh69pWWF9WlUjnrTMed0FzG88QUZ/+DjeSf51C9XHcs18XYag=="
+  "resolved" "https://registry.npmjs.org/@fragcolor/protos/-/protos-0.0.7.tgz"
+  "version" "0.0.7"
+
 "@jridgewell/gen-mapping@^0.1.0":
   "integrity" "sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w=="
   "resolved" "https://registry.npmjs.org/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz"
