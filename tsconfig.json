@@ -27,7 +27,9 @@
       "outDir": "./dist",
       "typeRoots": [
         "./node_modules/@types"
-      ]
+      ],
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
     },
     "exclude": [
       "build/**/*",

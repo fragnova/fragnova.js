@@ -16,12 +16,77 @@ import { ApiPromise, Keyring } from '@polkadot/api';
 // our local stuff
 import * as definitions from './interfaces/definitions';
 import { ProtosCategories } from "@polkadot/types/lookup";
-import { GetGenealogyParams, GetProtosParams } from './interfaces/protos';
+import { Categories, GetGenealogyParams, GetProtosParams } from './interfaces/protos';
 import { GetDefinitionsParams, GetInstanceOwnerParams, GetInstancesParams } from './interfaces/fragments';
+import { u16, Vec } from '@polkadot/types-codec';
 
-async function protoUpload(references: Array<string>, categories: object, tags: Array<string>,
-    linkedAssets: string|null, license: string, data: string
-    ): Promise<any> {
+
+export type availableCategories = {
+    text?: 'plain' | 'json',
+    trait?: Vec<u16>, // or should this be Array<number>??
+    shards?: 'edn' | 'binary',
+    audio?: 'oggFile' | 'mp3File',
+    texture?: 'pngFile' | 'jpgFile',
+    vector?: 'svgFile' | 'ttfFile',
+    video?: 'mkvFile' | 'mp4File',
+    model?: 'gltfFile' | 'sdf' | 'physicsCollider',
+    binary?: 'wasmProgram' | 'wasmReactor' | 'blendFile',
+};
+
+export type getProtosFuncParams = {
+    desc: boolean, 
+    fromIndex: number, 
+    limit: number, 
+    metadatKeys: Array<string>, 
+    categories: Array<availableCategories>, 
+    available: boolean|null, 
+    tags: Array<string>, 
+    returnOwers: boolean, 
+    owner: string|null, 
+    excludeTags: Array<string>
+}
+
+export type protoUploadFuncParams = {
+    references: Array<string>, 
+    category: availableCategories, 
+    tags: Array<string>,
+    linkedAssets: string|null, 
+    license: string, 
+    data: string
+}
+
+export type protoSetMetadataFuncParams = {
+    protoHash: string, 
+    metadataKey: string, 
+    data: string
+}
+
+export type getProtosGenealogyFuncParams = {
+    getAncestor: boolean, 
+    protoHash: string
+}
+
+export type fragmentsGetDefinitionsFuncParams = {
+    desc: boolean, 
+    fromIndex: number, 
+    limit: number, 
+    returnOwners?: boolean
+}
+
+export type fragmentsGetInstancesFuncParams = {
+    desc: boolean, 
+    fromIndex: number, 
+    limit: number,
+    definitionHash: string
+}
+
+export type fragmentsGetInstanceOwnerFuncParams = {
+    definitionHash: string, 
+    editionId: number, 
+    copyId: number
+}
+
+export async function protoUpload(protoUploadParams: protoUploadFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -33,7 +98,7 @@ async function protoUpload(references: Array<string>, categories: object, tags: 
         }
     });
 
-    let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', categories);
+    let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', protoUploadParams.category);
     // let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
     // let shouldFail: ProtosCategories = api.registry.createType('ProtosCategories', {text: "IEUDNFEWJNVK"});
 
@@ -43,7 +108,7 @@ async function protoUpload(references: Array<string>, categories: object, tags: 
 
     try {
         const txHash = await api.tx.protos.upload(
-            references, protoCategory, tags, linkedAssets, license, data
+            protoUploadParams.references, protoCategory, protoUploadParams.tags, protoUploadParams.linkedAssets, protoUploadParams.license, protoUploadParams.data
         ).signAndSend(alice);
         console.log('sent with transaction hash', txHash.toHex()); 
     } catch(e){
@@ -51,8 +116,7 @@ async function protoUpload(references: Array<string>, categories: object, tags: 
     }
 }
 
-
-async function protoSetMetadata(protoHash: string, metadataKey: string, data: string): Promise<any> {
+export async function protoSetMetadata(protoSetMetadataParams: protoSetMetadataFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -68,7 +132,7 @@ async function protoSetMetadata(protoHash: string, metadataKey: string, data: st
     const alice = keyring.addFromUri('//Alice');
 
     try {
-        const txHash = await api.tx.protos.setMetadata(protoHash, metadataKey, data)
+        const txHash = await api.tx.protos.setMetadata(protoSetMetadataParams.protoHash, protoSetMetadataParams.metadataKey, protoSetMetadataParams.data)
             .signAndSend(alice);
         console.log('sent with transaction hash', txHash.toHex());
     } catch(e){
@@ -77,9 +141,7 @@ async function protoSetMetadata(protoHash: string, metadataKey: string, data: st
 }
 
 // specify the type for category and tags
-async function getProtos(desc: boolean, fromIndex: number, limit: number, metadatKeys: Array<string>, 
-    categories: Array<any>, available: boolean|null, tags: Array<any>, returnOwers: boolean, owner: string|null, 
-    excludeTags: Array<string>): Promise<any> {
+export async function getProtos(getProtosParams: getProtosFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -92,16 +154,16 @@ async function getProtos(desc: boolean, fromIndex: number, limit: number, metada
     });
 
     let protoParams: GetProtosParams = api.registry.createType('GetProtosParams', {
-        desc: desc,
-        from: fromIndex,
-        limit: limit,
-        metadata_keys: metadatKeys,
-        categories: categories,
-        available: available,
-        tags: tags,
-        return_owners: returnOwers,
-        owner: owner,
-        exclude_tags: excludeTags,
+        desc: getProtosParams.desc,
+        from: getProtosParams.fromIndex,
+        limit: getProtosParams.limit,
+        metadata_keys: getProtosParams.metadatKeys,
+        categories: getProtosParams.categories,
+        available: getProtosParams.available,
+        tags: getProtosParams.tags,
+        return_owners: getProtosParams.returnOwers,
+        owner: getProtosParams.owner,
+        exclude_tags: getProtosParams.excludeTags,
     });
 
     try {
@@ -118,7 +180,7 @@ async function getProtos(desc: boolean, fromIndex: number, limit: number, metada
     }
 }
 
-async function getProtosGenealogy(getAncestor: boolean, protoHash: string): Promise<any> {
+export async function getProtosGenealogy(getProtosGenealogyParams: getProtosGenealogyFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -131,8 +193,8 @@ async function getProtosGenealogy(getAncestor: boolean, protoHash: string): Prom
     });
 
     let protoParams: GetGenealogyParams = api.registry.createType('GetGenealogyParams', {
-        get_ancestors: getAncestor,
-        proto_hash: protoHash,
+        get_ancestors: getProtosGenealogyParams.getAncestor,
+        proto_hash: getProtosGenealogyParams.protoHash,
     });
 
     try {
@@ -149,7 +211,7 @@ async function getProtosGenealogy(getAncestor: boolean, protoHash: string): Prom
     }
 }
 
-async function fragmentsGetDefinitions(desc: boolean, fromIndex: number, limit: number, returnOwners?: boolean): Promise<any> {
+export async function fragmentsGetDefinitions(fragmentsGetDefinitionsParams: fragmentsGetDefinitionsFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -162,7 +224,7 @@ async function fragmentsGetDefinitions(desc: boolean, fromIndex: number, limit: 
     });
 
     const params: GetDefinitionsParams = api.registry.createType("GetDefinitionsParams", {
-        desc: desc, from: fromIndex, limit: limit, return_owners: returnOwners
+        desc: fragmentsGetDefinitionsParams.desc, from: fragmentsGetDefinitionsParams.fromIndex, limit: fragmentsGetDefinitionsParams.limit, return_owners: fragmentsGetDefinitionsParams.returnOwners
     });
 
     try {
@@ -180,9 +242,7 @@ async function fragmentsGetDefinitions(desc: boolean, fromIndex: number, limit: 
     }
 }
 
-
-
-async function fragmentsGetInstances(desc: boolean, fromIndex: number, limit: number, definitionHash: string): Promise<any> {
+export async function fragmentsGetInstances(fragmentsGetInstancesParams: fragmentsGetInstancesFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -195,7 +255,7 @@ async function fragmentsGetInstances(desc: boolean, fromIndex: number, limit: nu
     });
 
     const params: GetInstancesParams = api.registry.createType("GetInstancesParams", {
-        desc: desc, from: fromIndex, limit: limit, definition_hash: definitionHash
+        desc: fragmentsGetInstancesParams.desc, from: fragmentsGetInstancesParams.fromIndex, limit: fragmentsGetInstancesParams.limit, definition_hash: fragmentsGetInstancesParams.definitionHash
     });
 
     try {
@@ -211,7 +271,7 @@ async function fragmentsGetInstances(desc: boolean, fromIndex: number, limit: nu
     }
 }
 
-async function fragmentsGetInstanceOwner(definitionHash: string, editionId: number, copyId: number): Promise<any> {
+export async function fragmentsGetInstanceOwner(fragmentsGetInstanceOwnerParams: fragmentsGetInstanceOwnerFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -224,7 +284,7 @@ async function fragmentsGetInstanceOwner(definitionHash: string, editionId: numb
     });
 
     const params: GetInstanceOwnerParams = api.registry.createType("GetInstanceOwnerParams", {
-        definition_hash: definitionHash, edition_id: editionId, copy_id: copyId
+        definition_hash: fragmentsGetInstanceOwnerParams.definitionHash, edition_id: fragmentsGetInstanceOwnerParams.editionId, copy_id: fragmentsGetInstanceOwnerParams.copyId
     });
 
     try {
@@ -240,28 +300,75 @@ async function fragmentsGetInstanceOwner(definitionHash: string, editionId: numb
 
 
 
-
 async function main() {
-
-    let getProtosRes = await getProtos(true, 0, 10, ['image', 'title', 'json_attributes', 'description'], [], null, [], true, null, ['NSFW']);
+    let paramGetProtos: getProtosFuncParams = {
+        desc: true, 
+        fromIndex: 0, 
+        limit: 10, 
+        metadatKeys: ['image', 'title', 'json_attributes', 'description'], 
+        categories: [{text: 'plain'}], 
+        available: null, 
+        tags: [], 
+        returnOwers: true,
+        owner: null, 
+        excludeTags: ['NSFW']
+    }
+    let getProtosRes = await getProtos(paramGetProtos);
     console.log(getProtosRes);
 
-    let protoUploadRes = await protoUpload([], {text: "plain"}, ['nar_character'], null, 'closed', 'test data body 03');
-    console.log(protoUploadRes);
 
-    let protoSetMetadataRes = await protoSetMetadata('0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413', 'title', 'test title 01');
+    let paramProtoUpload: protoUploadFuncParams = {
+        references: [],
+        category: {text: "plain"},
+        tags: ['nar_character'],
+        linkedAssets: null,
+        license: 'closed',
+        data: 'test data body 03'
+    }
+    let protoUploadRes = await protoUpload(paramProtoUpload);
+    console.log(protoUploadRes);
+ 
+
+    let protoSetMetadataParams: protoSetMetadataFuncParams = {
+        protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
+        metadataKey: 'title',
+        data: 'test title 01'
+    }
+    let protoSetMetadataRes = await protoSetMetadata(protoSetMetadataParams);
     console.log(protoSetMetadataRes);
 
-    let getProtosGenealogyRes = await getProtosGenealogy(true, '81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413');
+
+    let getProtosGenealogyFuncParams: getProtosGenealogyFuncParams = {
+        getAncestor: true, 
+        protoHash: '81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413'
+    }
+    let getProtosGenealogyRes = await getProtosGenealogy(getProtosGenealogyFuncParams);
     console.log(getProtosGenealogyRes);
 
-    let fragmentsGetDefinitionsRes = await fragmentsGetDefinitions(true, 0, 10);
+
+    let fragmentsGetDefinitionsParams: fragmentsGetDefinitionsFuncParams = {
+        desc: true,
+        fromIndex: 0,
+        limit: 10
+    }
+    let fragmentsGetDefinitionsRes = await fragmentsGetDefinitions(fragmentsGetDefinitionsParams);
     console.log(fragmentsGetDefinitionsRes);
 
-    let fragmentsGetInstancesRes = await fragmentsGetInstances(true, 0, 10, 'e69267a99be24967935972418017ea96');
+    let fragmentsGetInstancesParams: fragmentsGetInstancesFuncParams = {
+        desc: true,
+        fromIndex: 0,
+        limit: 10,
+        definitionHash: 'e69267a99be24967935972418017ea96'
+    }
+    let fragmentsGetInstancesRes = await fragmentsGetInstances(fragmentsGetInstancesParams);
     console.log(fragmentsGetInstancesRes);
 
-    let fragmentsGetInstanceOwnerRes = await fragmentsGetInstanceOwner('0xe69267a99be24967935972418017ea96', 1, 1);
+    let fragmentsGetInstanceOwnerParams: fragmentsGetInstanceOwnerFuncParams = {
+        definitionHash: '0xe69267a99be24967935972418017ea96', 
+        editionId: 1,
+        copyId: 1
+    }
+    let fragmentsGetInstanceOwnerRes = await fragmentsGetInstanceOwner(fragmentsGetInstanceOwnerParams );
     console.log(fragmentsGetInstanceOwnerRes);
 }
 
