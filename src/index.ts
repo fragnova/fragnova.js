@@ -16,7 +16,7 @@ import { ApiPromise, Keyring } from '@polkadot/api';
 // our local stuff
 import * as definitions from './interfaces/definitions';
 import { ProtosCategories } from "@polkadot/types/lookup";
-import { Categories, GetGenealogyParams, GetProtosParams } from './interfaces/protos';
+import { GetGenealogyParams, GetProtosParams } from './interfaces/protos';
 import { GetDefinitionsParams, GetInstanceOwnerParams, GetInstancesParams } from './interfaces/fragments';
 import { u16, Vec } from '@polkadot/types-codec';
 
@@ -46,19 +46,21 @@ export type getProtosFuncParams = {
     excludeTags: Array<string>
 }
 
+export type ProtoHash = string | Uint8Array | null;
+
 export type protoUploadFuncParams = {
-    references: Array<string>, 
+    references: Array<ProtoHash>, 
+    // references: Array<string>, 
     category: availableCategories, 
     tags: Array<string>,
     linkedAssets: string|null, 
-    license: string, 
-    data: string
+    license: "Closed" | "Open" | {"Tickets": number}, 
+    data: string 
 }
 
 export type protoSetMetadataFuncParams = {
     protoHash: string, 
-    metadataKey: string, 
-    data: string
+    data: string | Uint8Array
 }
 
 export type getProtosGenealogyFuncParams = {
@@ -77,11 +79,11 @@ export type fragmentsGetInstancesFuncParams = {
     desc: boolean, 
     fromIndex: number, 
     limit: number,
-    definitionHash: string
+    definitionHash: string | Uint8Array
 }
 
 export type fragmentsGetInstanceOwnerFuncParams = {
-    definitionHash: string, 
+    definitionHash: string | Uint8Array, 
     editionId: number, 
     copyId: number
 }
@@ -116,7 +118,7 @@ export async function protoUpload(protoUploadParams: protoUploadFuncParams): Pro
     }
 }
 
-export async function protoSetMetadata(protoSetMetadataParams: protoSetMetadataFuncParams): Promise<any> {
+export async function protoSetMetadataTitle(protoSetMetadataParams: protoSetMetadataFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -132,7 +134,55 @@ export async function protoSetMetadata(protoSetMetadataParams: protoSetMetadataF
     const alice = keyring.addFromUri('//Alice');
 
     try {
-        const txHash = await api.tx.protos.setMetadata(protoSetMetadataParams.protoHash, protoSetMetadataParams.metadataKey, protoSetMetadataParams.data)
+        const txHash = await api.tx.protos.setMetadata(protoSetMetadataParams.protoHash, 'title', protoSetMetadataParams.data)
+            .signAndSend(alice);
+        console.log('sent with transaction hash', txHash.toHex());
+    } catch(e){
+        console.log('Error: ' + e);
+    }
+}
+
+export async function protoSetMetadataDescription(protoSetMetadataParams: protoSetMetadataFuncParams): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        types: {
+            ...types,
+        }
+    });
+
+    // @todo: get user ****
+    const keyring = new Keyring({type: 'sr25519'});
+    keyring.setSS58Format(93);
+    const alice = keyring.addFromUri('//Alice');
+
+    try {
+        const txHash = await api.tx.protos.setMetadata(protoSetMetadataParams.protoHash, 'json_description', protoSetMetadataParams.data)
+            .signAndSend(alice);
+        console.log('sent with transaction hash', txHash.toHex());
+    } catch(e){
+        console.log('Error: ' + e);
+    }
+}
+
+export async function protoSetMetadataImage(protoSetMetadataParams: protoSetMetadataFuncParams): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        types: {
+            ...types,
+        }
+    });
+
+    // @todo: get user ****
+    const keyring = new Keyring({type: 'sr25519'});
+    keyring.setSS58Format(93);
+    const alice = keyring.addFromUri('//Alice');
+
+    try {
+        const txHash = await api.tx.protos.setMetadata(protoSetMetadataParams.protoHash, 'image', protoSetMetadataParams.data)
             .signAndSend(alice);
         console.log('sent with transaction hash', txHash.toHex());
     } catch(e){
@@ -322,20 +372,33 @@ async function main() {
         category: {text: "plain"},
         tags: ['nar_character'],
         linkedAssets: null,
-        license: 'closed',
+        license: 'Closed',
         data: 'test data body 03'
     }
     let protoUploadRes = await protoUpload(paramProtoUpload);
     console.log(protoUploadRes);
  
 
-    let protoSetMetadataParams: protoSetMetadataFuncParams = {
+    let protoSetMetadataTitleParams: protoSetMetadataFuncParams = {
         protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
-        metadataKey: 'title',
         data: 'test title 01'
     }
-    let protoSetMetadataRes = await protoSetMetadata(protoSetMetadataParams);
-    console.log(protoSetMetadataRes);
+    let protoSetMetadataTitleRes = await protoSetMetadataTitle(protoSetMetadataTitleParams);
+    console.log(protoSetMetadataTitleRes);
+
+    let protoSetMetadataDescParams: protoSetMetadataFuncParams = {
+        protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
+        data: 'test desc 01'
+    }
+    let protoSetMetadataDescRes = await protoSetMetadataDescription(protoSetMetadataDescParams);
+    console.log(protoSetMetadataDescRes);
+
+    let protoSetMetadataImageParams: protoSetMetadataFuncParams = {
+        protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
+        data: '0x0b000000000000007a90010089504e470d0a1a0a0000000d494844520000027e0000027a08...',
+    }
+    let protoSetMetadataImageRes = await protoSetMetadataImage(protoSetMetadataImageParams);
+    console.log(protoSetMetadataImageRes);
 
 
     let getProtosGenealogyFuncParams: getProtosGenealogyFuncParams = {
