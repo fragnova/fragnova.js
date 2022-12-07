@@ -88,6 +88,24 @@ export type fragmentsGetInstanceOwnerFuncParams = {
     copyId: number
 }
 
+/**
+ * 
+ * @param protoUploadParams
+ * 
+ * @example Upload a proto
+ * 
+ *  let paramProtoUpload: protoUploadFuncParams = {
+ *      references: [],
+ *      category: {text: "plain"},
+ *      tags: ['nar_character'],
+ *      linkedAssets: null,
+ *      license: 'closed',
+ *      data: 'test data body 03'
+ *  };
+ *  
+ *  let protoUploadRes = await protoUpload(paramProtoUpload);
+ *  
+ */
 export async function protoUpload(protoUploadParams: protoUploadFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
