@@ -29,11 +29,24 @@ import type { AccountId, BlockNumber, H160, H256, H64, Hash, Header, Index, Just
 import type { MigrationStatusResult, ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
+import type { GetGenealogyParams, GetProtosParams } from './protos';
+import type { GetDefinitionsParams, GetInstanceOwnerParams, GetInstancesParams } from './fragments';
 
 export type __AugmentedRpc = AugmentedRpc<() => unknown>;
 
 declare module '@polkadot/rpc-core/types/jsonrpc' {
   interface RpcInterface {
+    protos: {
+      getProtos: AugmentedRpc<(protoParams: GetProtosParams ) => Observable<any>>;
+      getGenealogy: AugmentedRpc<(protoParams: GetGenealogyParams) => Observable<any>>;
+    };
+
+    fragments: {
+      getDefinitions: AugmentedRpc<(params: GetDefinitionsParams) => Observable<any>>;
+      getInstances: AugmentedRpc<(params: GetInstancesParams) => Observable<any>>;
+      getInstanceOwner: AugmentedRpc<(params: GetInstanceOwnerParams) => Observable<any>>;
+    };
+
     author: {
       /**
        * Returns true if the keystore has private keys for the given public key and key type.
