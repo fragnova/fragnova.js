@@ -35,7 +35,7 @@ export type availableCategories = {
 
 /**
  * @typeParam desc - "desc" determines the order of Protos returned, set "desc" true to return in desc order, and false to return in ascending order.
- * @typeParam fromIndex - We're returning the protos dynamically to avoid loading huge amounts of data at once and cause bad user experience and performance issues. "fromIndex" is the starting index of the protos data set you want to return.
+ * @typeParam {number} fromIndex - We're returning the protos dynamically to avoid loading huge amounts of data at once and cause bad user experience and performance issues. "fromIndex" is the starting index of the protos data set you want to return.
  * 
  */
 export type getProtosFuncParams = {
