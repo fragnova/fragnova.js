@@ -33,6 +33,11 @@ export type availableCategories = {
     binary?: 'wasmProgram' | 'wasmReactor' | 'blendFile',
 };
 
+/**
+ * @typeParam desc - "desc" determines the order of Protos returned, set "desc" true to return in desc order, and false to return in ascending order.
+ * @typeParam fromIndex - We're returning the protos dynamically to avoid loading huge amounts of data at once and cause bad user experience and performance issues. "fromIndex" is the starting index of the protos data set you want to return.
+ * 
+ */
 export type getProtosFuncParams = {
     desc: boolean, 
     fromIndex: number, 
@@ -47,6 +52,7 @@ export type getProtosFuncParams = {
 }
 
 export type ProtoHash = string | Uint8Array | null;
+
 
 export type protoUploadFuncParams = {
     references: Array<ProtoHash>, 
@@ -147,6 +153,7 @@ export async function protoUpload(protoUploadParams: protoUploadFuncParams): Pro
  *  }
  * 
  *  let protoSetMetadataRes = await protoSetMetadata(protoSetMetadataParams);
+ * 
  */
 export async function protoSetMetadataTitle(protoSetMetadataParams: protoSetMetadataFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
