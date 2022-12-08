@@ -92,18 +92,18 @@ export type fragmentsGetInstanceOwnerFuncParams = {
  * 
  * @param protoUploadParams
  * 
- * @example Upload a proto
+ * @example Upload a proto with no reference, category text: plain, tags
  * 
- *  let paramProtoUpload: protoUploadFuncParams = {
+ * let paramProtoUpload: protoUploadFuncParams = {
  *      references: [],
  *      category: {text: "plain"},
  *      tags: ['nar_character'],
  *      linkedAssets: null,
- *      license: 'closed',
- *      data: 'test data body 03'
- *  };
+ *      license: 'Closed',
+ *      data: 'test data'
+ * };
  *  
- *  let protoUploadRes = await protoUpload(paramProtoUpload);
+ * let protoUploadRes = await protoUpload(paramProtoUpload);
  *  
  */
 export async function protoUpload(protoUploadParams: protoUploadFuncParams): Promise<any> {
@@ -136,6 +136,18 @@ export async function protoUpload(protoUploadParams: protoUploadFuncParams): Pro
     }
 }
 
+/**
+ *
+ * @param protoSetMetadataParams 
+ * 
+ * @example Set metadata parameter
+ * let protoSetMetadataParams: protoSetMetadataFuncParams = {
+ *      protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
+ *      data: 'test title 01'
+ *  }
+ * 
+ *  let protoSetMetadataRes = await protoSetMetadata(protoSetMetadataParams);
+ */
 export async function protoSetMetadataTitle(protoSetMetadataParams: protoSetMetadataFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
@@ -209,6 +221,27 @@ export async function protoSetMetadataImage(protoSetMetadataParams: protoSetMeta
 }
 
 // specify the type for category and tags
+/**
+ * 
+ * @param getProtosParams 
+ * @returns 
+ * 
+ * @example Get protos example
+ * let paramGetProtos: getProtosFuncParams = {        
+ *      desc: true, 
+ *      fromIndex: 0, 
+ *      limit: 10, 
+ *      metadatKeys: ['image', 'title', 'json_attributes'], 
+ *      categories: [{text: 'plain'}], 
+ *      available: null, 
+ *      tags: [], 
+ *      returnOwers: true,
+ *      owner: null, 
+ *  excludeTags: ['NSFW']
+ *  }
+ * 
+ *  let getProtosRes = await getProtos(paramGetProtos);
+ */
 export async function getProtos(getProtosParams: getProtosFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
@@ -248,6 +281,20 @@ export async function getProtos(getProtosParams: getProtosFuncParams): Promise<a
     }
 }
 
+/**
+ * 
+ * @param getProtosGenealogyParams 
+ * @returns 
+ * 
+ * @example Get Proto Genealogy
+ * let getProtosGenealogyFuncParams: getProtosGenealogyFuncParams = {
+ *      getAncestor: true, 
+ *      protoHash: '81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413'
+ * }
+ * 
+ * let getProtosGenealogyRes = await getProtosGenealogy(getProtosGenealogyFuncParams);
+ * 
+ */
 export async function getProtosGenealogy(getProtosGenealogyParams: getProtosGenealogyFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
@@ -279,6 +326,22 @@ export async function getProtosGenealogy(getProtosGenealogyParams: getProtosGene
     }
 }
 
+/**
+ * 
+ * @param fragmentsGetDefinitionsParams 
+ * @returns 
+ * 
+ * @example 
+ * 
+ * let fragmentsGetDefinitionsParams: fragmentsGetDefinitionsFuncParams = {
+ *      desc: true,
+ *      fromIndex: 0,
+ *      limit: 10
+ * }
+ * 
+ * let fragmentsGetDefinitionsRes = await fragmentsGetDefinitions(fragmentsGetDefinitionsParams);
+ * 
+ */
 export async function fragmentsGetDefinitions(fragmentsGetDefinitionsParams: fragmentsGetDefinitionsFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
@@ -310,6 +373,21 @@ export async function fragmentsGetDefinitions(fragmentsGetDefinitionsParams: fra
     }
 }
 
+/**
+ * 
+ * @param fragmentsGetInstancesParams 
+ * @returns 
+ * 
+ * @example fragmentsGetInstances
+ * let fragmentsGetInstancesParams: fragmentsGetInstancesFuncParams = {
+ *      desc: true,
+ *      fromIndex: 0,
+ *      limit: 10,
+ *      definitionHash: 'e69267a99be24967935972418017ea96'
+ * }
+ * 
+ * let fragmentsGetInstancesRes = await fragmentsGetInstances(fragmentsGetInstancesParams);
+ */
 export async function fragmentsGetInstances(fragmentsGetInstancesParams: fragmentsGetInstancesFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
@@ -339,6 +417,20 @@ export async function fragmentsGetInstances(fragmentsGetInstancesParams: fragmen
     }
 }
 
+/**
+ * 
+ * @param fragmentsGetInstanceOwnerParams 
+ * 
+ * @example fragmentsGetInstanceOwner
+ * let fragmentsGetInstanceOwnerParams: fragmentsGetInstanceOwnerFuncParams = {
+ *      definitionHash: '0xe69267a99be24967935972418017ea96', 
+ *      editionId: 1,
+ *      copyId: 1
+ * }
+ * 
+ * let fragmentsGetInstanceOwnerRes = await fragmentsGetInstanceOwner(fragmentsGetInstanceOwnerParams);
+ * 
+ */
 export async function fragmentsGetInstanceOwner(fragmentsGetInstanceOwnerParams: fragmentsGetInstanceOwnerFuncParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
