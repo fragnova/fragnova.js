@@ -36,13 +36,15 @@ export type availableCategories = {
 /**
  * @typeParam desc - "desc" determines the order of Protos returned, set "desc" true to return in desc order, and false to return in ascending order.
  * @typeParam {number} fromIndex - We're returning the protos dynamically to avoid loading huge amounts of data at once and cause bad user experience and performance issues. "fromIndex" is the starting index of the protos data set you want to return.
+ * @typeParam limit: "limit" is the size of the data set you want to return.
+ * @typeParam "metadataKeys" - "metadataKeys" is the list of metadata you want to return. E.g. If you want to return all metadata, set "metadataKeys" to ['image', 'title', 'json_attributes', 'description'], if you want to return only the image and title, set "metadataKeys" to ['image', 'title'].
  * 
  */
 export type getProtosFuncParams = {
     desc: boolean, 
     fromIndex: number, 
     limit: number, 
-    metadatKeys: Array<string>, 
+    metadataKeys: Array<string>, 
     categories: Array<availableCategories>, 
     available: boolean|null, 
     tags: Array<string>, 
@@ -238,7 +240,7 @@ export async function protoSetMetadataImage(protoSetMetadataParams: protoSetMeta
  *      desc: true, 
  *      fromIndex: 0, 
  *      limit: 10, 
- *      metadatKeys: ['image', 'title', 'json_attributes'], 
+ *      metadataKeys: ['image', 'title', 'json_attributes'], 
  *      categories: [{text: 'plain'}], 
  *      available: null, 
  *      tags: [], 
@@ -265,7 +267,7 @@ export async function getProtos(getProtosParams: getProtosFuncParams): Promise<a
         desc: getProtosParams.desc,
         from: getProtosParams.fromIndex,
         limit: getProtosParams.limit,
-        metadata_keys: getProtosParams.metadatKeys,
+        metadata_keys: getProtosParams.metadataKeys,
         categories: getProtosParams.categories,
         available: getProtosParams.available,
         tags: getProtosParams.tags,
@@ -472,7 +474,7 @@ async function main() {
         desc: true, 
         fromIndex: 0, 
         limit: 10, 
-        metadatKeys: ['image', 'title', 'json_attributes', 'description'], 
+        metadataKeys: ['image', 'title', 'json_attributes', 'description'], 
         categories: [{text: 'plain'}], 
         available: null, 
         tags: [], 
