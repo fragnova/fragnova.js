@@ -38,6 +38,8 @@ export type availableCategories = {
  * @typeParam {number} fromIndex - We're returning the protos dynamically to avoid loading huge amounts of data at once and cause bad user experience and performance issues. "fromIndex" is the starting index of the protos data set you want to return.
  * @typeParam limit: "limit" is the size of the data set you want to return.
  * @typeParam "metadataKeys" - "metadataKeys" is the list of metadata you want to return. E.g. If you want to return all metadata, set "metadataKeys" to ['image', 'title', 'json_attributes', 'description'], if you want to return only the image and title, set "metadataKeys" to ['image', 'title'].
+ * @typeParam "metadataKeys" - "metadataKeys" is the list of metadata you want to return. E.g. If you want to return all metadata, set "metadataKeys" to ['image', 'title', 'json_attributes', 'description'], if you want to return only the image and title, set "metadataKeys" to ['image', 'title'].
+ * 
  * 
  */
 export type getProtosFuncParams = {
@@ -143,6 +145,106 @@ export async function protoUpload(protoUploadParams: protoUploadFuncParams): Pro
         console.log('Error: ' + e);
     }
 }
+
+/**
+ * 
+ * @param protoUploadParams
+ * 
+ * @example Upload a proto with no reference, category text: plain, tags
+ * 
+ * let paramProtoUpload: protoUploadFuncParams = {
+ *      references: [],
+ *      category: {text: "plain"},
+ *      tags: ['nar_character'],
+ *      linkedAssets: null,
+ *      license: 'Closed',
+ *      data: 'test data'
+ * };
+ *  
+ * let protoUploadRes = await protoUpload(paramProtoUpload);
+ *  
+ */
+ export async function protoUploadTrait(protoUploadParams: protoUploadFuncParams): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        rpc: protoType['rpc'],
+        types: {
+            ...types,
+            ...protoType['types'],
+        }
+    });
+
+    let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', protoUploadParams.category);
+    // let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
+    // let shouldFail: ProtosCategories = api.registry.createType('ProtosCategories', {text: "IEUDNFEWJNVK"});
+
+    const keyring = new Keyring({type: 'sr25519'});
+    keyring.setSS58Format(93);
+    const alice = keyring.addFromUri('//Alice');
+
+    try {
+        const txHash = await api.tx.protos.upload(
+            protoUploadParams.references, protoCategory, protoUploadParams.tags, protoUploadParams.linkedAssets, protoUploadParams.license, protoUploadParams.data
+        ).signAndSend(alice);
+        console.log('sent with transaction hash', txHash.toHex()); 
+    } catch(e){
+        console.log('Error: ' + e);
+    }
+}
+
+
+
+/**
+ * 
+ * @param protoUploadParams
+ * 
+ * @example Upload a proto with no reference, category text: plain, tags
+ * 
+ * let paramProtoUpload: protoUploadFuncParams = {
+ *      references: [],
+ *      category: {text: "plain"},
+ *      tags: ['nar_character'],
+ *      linkedAssets: null,
+ *      license: 'Closed',
+ *      data: 'test data'
+ * };
+ *  
+ * let protoUploadRes = await protoUpload(paramProtoUpload);
+ *  
+ */
+ export async function protoUploadImage(protoUploadParams: protoUploadFuncParams): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        rpc: protoType['rpc'],
+        types: {
+            ...types,
+            ...protoType['types'],
+        }
+    });
+
+    let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', protoUploadParams.category);
+    // let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', {text: "plain"});
+    // let shouldFail: ProtosCategories = api.registry.createType('ProtosCategories', {text: "IEUDNFEWJNVK"});
+
+    const keyring = new Keyring({type: 'sr25519'});
+    keyring.setSS58Format(93);
+    const alice = keyring.addFromUri('//Alice');
+
+    try {
+        const txHash = await api.tx.protos.upload(
+            protoUploadParams.references, protoCategory, protoUploadParams.tags, protoUploadParams.linkedAssets, protoUploadParams.license, protoUploadParams.data
+        ).signAndSend(alice);
+        console.log('sent with transaction hash', txHash.toHex()); 
+    } catch(e) {
+        console.log('Error: ' + e);
+    }
+}
+
+
 
 /**
  *
