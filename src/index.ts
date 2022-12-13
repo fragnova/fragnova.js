@@ -68,6 +68,32 @@ export type protoUploadFuncParams = {
     data: string 
 }
 
+
+// class ProtoUploadFuncParams {
+//     references?: Array<ProtoHash>;
+//     // references: Array<string>, 
+//     category?: availableCategories;
+//     tags?: Array<string>;
+//     linkedAssets?: string|null;
+//     license?: "Closed" | "Open" | {"Tickets": number};
+//     data?: string;
+// }
+
+/**
+ * @typeParam references - "references" allows user to link proto to another created proto
+ * @typeParam category - {categories} "categories" lets you set the category of proto. You can found the full category list here: https://github.com/fragcolor-xyz/clamor/blob/devel/rpc/index.js#L51 following the format {category: 'subCategory'} E.g. {audio: 'oggFile'}.
+ * 
+ */
+export interface ProtoUploadFuncParams2 {
+    references?: Array<ProtoHash>;
+    // references: Array<string>, 
+    category?: availableCategories;
+    tags?: Array<string>;
+    linkedAssets?: string|null;
+    license?: "Closed" | "Open" | {"Tickets": number};
+    data?: string;
+}
+
 export type protoSetMetadataFuncParams = {
     protoHash: string, 
     data: string | Uint8Array
