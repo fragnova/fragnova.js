@@ -1586,7 +1586,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * **Proto-Fragment** *<u>can't be included</u>* into **other Proto-Fragments**
        * * `data` - **Data** of the **Proto-Fragment**
        **/
-      upload: AugmentedSubmittable<(references: any, category: ProtosCategories | { Text: any } | { Trait: any } | { Shards: any } | { Audio: any } | { Texture: any } | { Vector: any } | { Video: any } | { Model: any } | { Binary: any } | string | Uint8Array, tags: Vec<Bytes> | (Bytes | string | Uint8Array)[], linkedAsset: Option<PalletProtosLinkedAsset> | null | Uint8Array | PalletProtosLinkedAsset | { Erc721: any } | string, license: PalletProtosUsageLicense | { Closed: any } | { Open: any } | { Tickets: any } | { Contract: any } | string | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Vec<U8aFixed>, ProtosCategories, Vec<Bytes>, Option<PalletProtosLinkedAsset>, PalletProtosUsageLicense, Bytes]>;
+      upload: AugmentedSubmittable<(references: Array<any>, category: ProtosCategories | { Text: any } | { Trait: any } | { Shards: any } | { Audio: any } | { Texture: any } | { Vector: any } | { Video: any } | { Model: any } | { Binary: any } | string | Uint8Array, tags: Vec<Bytes> | (Bytes | string | Uint8Array)[], linkedAsset: Option<PalletProtosLinkedAsset> | null | Uint8Array | PalletProtosLinkedAsset | { Erc721: any } | string, license: PalletProtosUsageLicense | { Closed: any } | { Open: any } | { Tickets: any } | { Contract: any } | string | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Vec<U8aFixed>, ProtosCategories, Vec<Bytes>, Option<PalletProtosLinkedAsset>, PalletProtosUsageLicense, Bytes]>;
       /**
        * Generic tx
        **/
