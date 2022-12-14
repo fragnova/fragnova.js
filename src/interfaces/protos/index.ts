@@ -2,3 +2,468 @@
 /* eslint-disable */
 
 export * from './types';
+
+// We need to import the augmented definitions "somewhere" in our project, however since we have
+// it in tsconfig as an override and the api/types has imports, it is not strictly required here.
+// Because of the tsconfig override, we could import from '@polkadot/{api, types}/augment'
+import '../augment-api';
+import '../augment-types';
+import protoType from '@fragcolor/protos';
+
+// external imports
+import { ApiPromise } from '@polkadot/api';
+
+// our local stuff
+import * as definitions from './definitions';
+import { ProtosCategories, PalletProtosLinkedAsset, PalletProtosUsageLicense } from "@polkadot/types/lookup";
+import { GetGenealogyParams, GetProtosParams } from './types';
+import { u16, Vec, Bytes, Option } from '@polkadot/types-codec';
+import { AddressOrPair } from '@polkadot/api/types';
+
+
+export type availableCategories = {
+    text?: 'plain' | 'json',
+    trait?: Vec<u16>, // or should this be Array<number>??
+    shards?: 'edn' | 'binary',
+    audio?: 'oggFile' | 'mp3File',
+    texture?: 'pngFile' | 'jpgFile',
+    vector?: 'svgFile' | 'ttfFile',
+    video?: 'mkvFile' | 'mp4File',
+    model?: 'gltfFile' | 'sdf' | 'physicsCollider',
+    binary?: 'wasmProgram' | 'wasmReactor' | 'blendFile',
+};
+
+/**
+ * GetProtosFuncParams Parameters
+ */
+export interface GetProtosFuncParams {
+    /**
+     * "desc" determines the order of Protos returned, set "desc" true to return in desc order, and false to return in ascending order.
+     */
+    desc: boolean;
+
+    /**
+     * We're returning the protos dynamically to avoid loading huge amounts of data at once and cause bad user experience and performance issues. "fromIndex" is the starting index of the protos data set you want to return.
+     */
+    fromIndex: number;
+
+    /**
+     * "limit" is the size of the data set you want to return.
+     */
+    limit: number;
+
+    /**
+     * "metadataKeys" is the list of metadata you want to return. E.g. If you want to return all metadata, set "metadataKeys" to ['image', 'title', 'json_attributes', 'description'], if you want to return only the image and title, set "metadataKeys" to ['image', 'title'].
+     */
+    metadataKeys: Array<string>;
+
+    /**
+     * "categories" lets you return protos of given categories, you can found the full category list here: https://github.com/fragcolor-xyz/clamor/blob/devel/rpc/index.js#L51 following the format [{category: 'subCategory'}] E.g. [{audio: 'oggFile'}, {audio: 'mp3File'}, {texture: 'pngFile'}, {texture: 'jpgFile'}]
+     */
+    categories: Array<availableCategories>;
+
+    /**
+     * "available" is an optional parameter, it lets you filter protos by availability. Set true to only return the protos that are available. 
+     */
+    available: boolean|null;
+
+    /**
+     * "tags" lets you return protos of given tags, E.g. ['TNT', '3d-model']
+     */
+    tags: Array<string>;
+
+    /**
+     * "returnOwner" lets you return the owner when set to true.
+     */
+    returnOwers: boolean; 
+
+    /**
+     * "owner" is an optional parameter, it will return the protos associated with the given owner. 
+     */
+    owner: string|null;
+
+    /**
+     * "excludeTags" allows user to return protos excluding certain tags, E.g. ['NSFW'] will return protos without the tag 'NSFW'. If there is no tag you want to exclude, set to [].
+     */
+    excludeTags: Array<string>;
+}
+
+export type ProtoHash = string | Uint8Array | null;
+
+/**
+ * ProtoUploadFuncParams Parameters
+ */
+ export interface ProtoUploadFuncParams {
+    /**
+     * "references" allows user to link proto to another created proto
+     */
+    references: Array<ProtoHash>;
+    // references: Vec<U8aFixed>;
+
+    /**
+     * "categories" lets you set the category of proto. You can found the full category list here: https://github.com/fragcolor-xyz/clamor/blob/devel/rpc/index.js#L51 following the format {category: 'subCategory'} E.g. {audio: 'oggFile'}.
+     */
+    category: availableCategories;
+
+    /**
+     * "tags" lets you set tag of proto, E.g. ['TNT', '3d-model']
+     */
+    tags: Vec<Bytes> | (Bytes | string | Uint8Array)[];
+
+    /**
+     * Optional parameter "linkedAssets" 
+     */
+    linkedAssets: Option<PalletProtosLinkedAsset> | null | Uint8Array | PalletProtosLinkedAsset | { Erc721: any } | string;
+
+    license: PalletProtosUsageLicense | { Closed: any } | { Open: any } | { Tickets: any } | { Contract: any } | string | Uint8Array;
+
+    /**
+     * The data of the proto as string.
+     */
+    data: Bytes | string | Uint8Array;
+}
+
+/**
+ * ProtoSetMetadataFuncParams Parameters
+ */
+export interface ProtoSetMetadataFuncParams {
+    /**
+     * "protoHash" is the hash of the proto to set the metadata.
+     */
+    protoHash: string;
+
+    /**
+     * The value of the metadata.
+     */
+    data: string | Uint8Array;
+}
+
+/**
+ * GetProtosGenealogyFuncParams Parameters
+ */
+export interface GetProtosGenealogyFuncParams {
+    /**
+     * Set "getAncestor" true to get the proto ancestors, set to false to get the proto descendants. 
+     */
+    getAncestor: boolean;
+
+    /**
+     * Hash of the proto you want to retrieve. 
+     */
+    protoHash: string;
+}
+
+
+/**
+ * 
+ * protoUpload is used to upload a proto
+ * 
+ * @param protoUploadParams
+ * 
+ * @example Upload a proto with no reference, category text: plain, tags
+ * 
+ * let paramProtoUpload: ProtoUploadFuncParams = {
+ *      references: [],
+ *      category: {text: "plain"},
+ *      tags: ['nar_character'],
+ *      linkedAssets: null,
+ *      license: 'Closed',
+ *      data: 'test data'
+ * };
+ *  
+ * let protoUploadRes = await protoUpload(paramProtoUpload);
+ *  
+ */
+export async function upload(protoUploadParams: ProtoUploadFuncParams, user: AddressOrPair): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        rpc: protoType['rpc'],
+        types: {
+            ...types,
+            ...protoType['types'],
+        }
+    });
+
+    try {
+        let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', protoUploadParams.category);
+
+        const txHash = await api.tx.protos.upload(
+            protoUploadParams.references, protoCategory, protoUploadParams.tags, protoUploadParams.linkedAssets, protoUploadParams.license, protoUploadParams.data
+        ).signAndSend(user);
+        console.log('sent with transaction hash', txHash.toHex()); 
+        // return 'sent with transaction hash ' + txHash.toHex();
+    } catch(e){
+        console.log('Error: ' + e);
+        return 'Error: ' + e;
+    }
+}
+
+/**
+ * 
+ * 
+ * @param protoUploadParams
+ * 
+ * @example Upload a proto with no reference, category text: plain, tags
+ * 
+ * let paramProtoUpload: ProtoUploadFuncParams = {
+ *      references: [],
+ *      category: {text: "plain"},
+ *      tags: ['nar_character'],
+ *      linkedAssets: null,
+ *      license: 'Closed',
+ *      data: 'test data'
+ * };
+ *  
+ * let protoUploadRes = await protoUpload(paramProtoUpload);
+ *  
+ */
+ export async function uploadTrait(protoUploadParams: ProtoUploadFuncParams, user: AddressOrPair): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        rpc: protoType['rpc'],
+        types: {
+            ...types,
+            ...protoType['types'],
+        }
+    });
+
+
+    try {
+        let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', protoUploadParams.category);
+
+        const txHash = await api.tx.protos.upload(
+            protoUploadParams.references, protoCategory, protoUploadParams.tags, protoUploadParams.linkedAssets, protoUploadParams.license, protoUploadParams.data
+        ).signAndSend(user);
+        console.log('sent with transaction hash', txHash.toHex()); 
+    } catch(e){
+        console.log('Error: ' + e);
+    }
+}
+
+
+
+/**
+ * 
+ * @param protoUploadParams
+ * 
+ * @example Upload a proto with no reference, category text: plain, tags
+ * 
+ * let paramProtoUpload: ProtoUploadFuncParams = {
+ *      references: [],
+ *      category: {text: "plain"},
+ *      tags: ['nar_character'],
+ *      linkedAssets: null,
+ *      license: 'Closed',
+ *      data: 'test data'
+ * };
+ *  
+ * let protoUploadRes = await protoUpload(paramProtoUpload);
+ *  
+ */
+ export async function uploadImage(protoUploadParams: ProtoUploadFuncParams, user: AddressOrPair): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        rpc: protoType['rpc'],
+        types: {
+            ...types,
+            ...protoType['types'],
+        }
+    });
+
+
+    try {
+        let protoCategory: ProtosCategories = api.registry.createType('ProtosCategories', protoUploadParams.category);
+
+        const txHash = await api.tx.protos.upload(
+            protoUploadParams.references, protoCategory, protoUploadParams.tags, protoUploadParams.linkedAssets, protoUploadParams.license, protoUploadParams.data
+        ).signAndSend(user);
+        console.log('sent with transaction hash', txHash.toHex()); 
+    } catch(e) {
+        console.log('Error: ' + e);
+    }
+}
+
+
+
+/**
+ *
+ * @param protoSetMetadataParams 
+ * 
+ * @example Set metadata parameter
+ * let protoSetMetadataParams: ProtoSetMetadataFuncParams = {
+ *      protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
+ *      data: 'test title 01'
+ *  }
+ * 
+ *  let protoSetMetadataRes = await protoSetMetadata(protoSetMetadataParams);
+ * 
+ */
+export async function setMetadataTitle(protoSetMetadataParams: ProtoSetMetadataFuncParams, user: AddressOrPair): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        types: {
+            ...types,
+        }
+    });
+
+    try {
+        const txHash = await api.tx.protos.setMetadata(protoSetMetadataParams.protoHash, 'title', protoSetMetadataParams.data)
+            .signAndSend(user);
+        console.log('sent with transaction hash', txHash.toHex());
+    } catch(e){
+        console.log('Error: ' + e);
+    }
+}
+
+export async function setMetadataDescription(protoSetMetadataParams: ProtoSetMetadataFuncParams, user: AddressOrPair): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        types: {
+            ...types,
+        }
+    });
+
+    try {
+        const txHash = await api.tx.protos.setMetadata(protoSetMetadataParams.protoHash, 'json_description', protoSetMetadataParams.data)
+            .signAndSend(user);
+        console.log('sent with transaction hash', txHash.toHex());
+    } catch(e){
+        console.log('Error: ' + e);
+    }
+}
+
+export async function setMetadataImage(protoSetMetadataParams: ProtoSetMetadataFuncParams, user: AddressOrPair): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        types: {
+            ...types,
+        }
+    });
+
+    try {
+        const txHash = await api.tx.protos.setMetadata(protoSetMetadataParams.protoHash, 'image', protoSetMetadataParams.data)
+            .signAndSend(user);
+        console.log('sent with transaction hash', txHash.toHex());
+    } catch(e){
+        console.log('Error: ' + e);
+    }
+}
+
+// specify the type for category and tags
+/**
+ * 
+ * @param getProtosParams 
+ * @returns 
+ * 
+ * @example Get protos example
+ * let paramGetProtos: GetProtosFuncParams = {        
+ *      desc: true, 
+ *      fromIndex: 0, 
+ *      limit: 10, 
+ *      metadataKeys: ['image', 'title', 'json_attributes'], 
+ *      categories: [{text: 'plain'}], 
+ *      available: null, 
+ *      tags: [], 
+ *      returnOwers: true,
+ *      owner: null, 
+ *  excludeTags: ['NSFW']
+ *  }
+ * 
+ *  let getProtosRes = await getProtos(paramGetProtos);
+ */
+export async function get(getProtosParams: GetProtosFuncParams): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        rpc: protoType['rpc'],
+        types: {
+            ...types,
+            ...protoType['types'],
+        }
+    });
+
+    let protoParams: GetProtosParams = api.registry.createType('GetProtosParams', {
+        desc: getProtosParams.desc,
+        from: getProtosParams.fromIndex,
+        limit: getProtosParams.limit,
+        metadata_keys: getProtosParams.metadataKeys,
+        categories: getProtosParams.categories,
+        available: getProtosParams.available,
+        tags: getProtosParams.tags,
+        return_owners: getProtosParams.returnOwers,
+        owner: getProtosParams.owner,
+        exclude_tags: getProtosParams.excludeTags,
+    });
+
+    try {
+        const txHash = await api.rpc.protos.getProtos(protoParams);
+        let listOfProtosObj = JSON.parse(txHash.toJSON());
+        // console.log('listOfProtosObj');
+        // console.log(listOfProtosObj);
+        // console.log('sent with transaction hash', txHash.toHex());
+
+        return listOfProtosObj;
+    } catch(e){
+        // console.log('Error: ' + e);
+        return Error('Error:' + e);
+    }
+}
+
+/**
+ * 
+ * @param getProtosGenealogyParams 
+ * @returns 
+ * 
+ * @example Get Proto Genealogy
+ * let getProtosGenealogyFuncParams: GetProtosGenealogyFuncParams = {
+ *      getAncestor: true, 
+ *      protoHash: '81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413'
+ * }
+ * 
+ * let getProtosGenealogyRes = await getProtosGenealogy(getProtosGenealogyFuncParams);
+ * 
+ */
+export async function getGenealogy(getProtosGenealogyParams: GetProtosGenealogyFuncParams): Promise<any> {
+    // extract all types from definitions - fast and dirty approach, flatted on 'types'
+    const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
+    const api = await ApiPromise.create({
+        rpc: protoType['rpc'],
+        types: {
+            ...types,
+            ...protoType['types'],
+        }
+    });
+
+    let protoParams: GetGenealogyParams = api.registry.createType('GetGenealogyParams', {
+        get_ancestors: getProtosGenealogyParams.getAncestor,
+        proto_hash: getProtosGenealogyParams.protoHash,
+    });
+
+    try {
+        const txHash = await api.rpc.protos.getGenealogy(protoParams);
+        let listOfProtosObj = JSON.parse(txHash.toJSON());
+        // console.log('Get genealogy');
+        // console.log(listOfProtosObj);
+        // console.log('sent with transaction hash', txHash.toHex());
+
+        return listOfProtosObj;
+    } catch(e){
+        console.log('Error: ' + e);
+        return Error('Error: ' + e);
+    }
+}
+ 
