@@ -21,7 +21,7 @@ async function main() {
     const alice = keyring.addFromUri('//Alice');
 
     try{
-        let paramGetProtos: protos.GetProtosFuncParams = {
+        let paramGetProtos: protos.getProtosParams = {
             desc: true, 
             fromIndex: 0, 
             limit: 10, 
@@ -40,7 +40,7 @@ async function main() {
     }  
 
     try{
-        let paramProtoUpload: protos.ProtoUploadFuncParams = {
+        let paramProtoUpload: protos.protoUploadParams = {
             references: [],
             category: {text: "plain"},
             tags: ['nar_character'],
@@ -56,7 +56,7 @@ async function main() {
 
 
     try{
-        let protoSetMetadataTitleParams: protos.ProtoSetMetadataFuncParams = {
+        let protoSetMetadataTitleParams: protos.protoSetMetadataParams = {
             protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
             data: 'test title 01'
         }
@@ -67,7 +67,7 @@ async function main() {
     }    
 
     try{
-        let protoSetMetadataDescParams: protos.ProtoSetMetadataFuncParams = {
+        let protoSetMetadataDescParams: protos.protoSetMetadataParams = {
             protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
             data: 'test desc 01'
         }
@@ -78,7 +78,7 @@ async function main() {
     }  
 
     try{
-        let protoSetMetadataImageParams: protos.ProtoSetMetadataFuncParams = {
+        let protoSetMetadataImageParams: protos.protoSetMetadataParams = {
             protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
             data: '0x0b000000000000007a90010089504e470d0a1a0a0000000d494844520000027e0000027a08...',
         }
@@ -89,7 +89,7 @@ async function main() {
     }  
 
     try{
-        let getProtosGenealogyFuncParams: protos.GetProtosGenealogyFuncParams = {
+        let getProtosGenealogyFuncParams: protos.getProtosGenealogyParams = {
             getAncestor: true, 
             protoHash: '81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413'
         }
@@ -100,7 +100,7 @@ async function main() {
     }  
 
     try {
-        let fragmentsGetDefinitionsParams: fragments.FragmentsGetDefinitionsFuncParams = {
+        let fragmentsGetDefinitionsParams: fragments.fragmentsGetDefinitionsParams = {
             desc: true,
             fromIndex: 0,
             limit: 10
@@ -112,7 +112,7 @@ async function main() {
     }  
 
     try{
-        let fragmentsGetInstancesParams: fragments.FragmentsGetInstancesFuncParams = {
+        let fragmentsGetInstancesParams: fragments.fragmentsGetInstancesParams = {
             desc: true,
             fromIndex: 0,
             limit: 10,
@@ -125,7 +125,7 @@ async function main() {
     }  
 
     try{
-        let fragmentsGetInstanceOwnerParams: fragments.FragmentsGetInstanceOwnerFuncParams = {
+        let fragmentsGetInstanceOwnerParams: fragments.fragmentsGetInstanceOwnerParams = {
             definitionHash: '0xe69267a99be24967935972418017ea96', 
             editionId: 1,
             copyId: 1

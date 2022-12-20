@@ -10,11 +10,15 @@ MAIN_BRANCH="main"
 TARGET_BRANCH="gh-pages"
 DOC_FOLDER_MAIN_BRANCH="target/docs"
 DOC_FOLDER_TARGET_BRANCH="docs"
-DOC_INDEX_PAGE="${CARGO_PACKAGE_NAME}/index.html"
+# DOC_INDEX_PAGE="${CARGO_PACKAGE_NAME}/index.html"
 
-cd "$GITHUB_WORKSPACE"
-git config user.name "$BOT_NAME"
-git config user.email "$BOT_EMAIL"
+# cd "$GITHUB_WORKSPACE"
+# git config user.name "$BOT_NAME"
+# git config user.email "$BOT_EMAIL"
+
+cd ..
+git config user.name "Fragcolor bot"
+git config user.email "bot@fragcolor.xyz"
 
 npx typedoc src/interfaces/protos/index.ts src/interfaces/fragments/index.ts src/interfaces/augment-api-consts.ts  src/interfaces/augment-api-errors.ts src/interfaces/augment-api-events.ts src/interfaces/augment-api-query.ts src/interfaces/augment-api-rpc.ts src/interfaces/augment-api-runtime.ts src/interfaces/augment-api-tx.ts src/interfaces/augment-types.ts src/interfaces/augment-types.ts # saves doc in $DOC_FOLDER_MAIN_BRANCH
 

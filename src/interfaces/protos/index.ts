@@ -34,9 +34,9 @@ export type availableCategories = {
 };
 
 /**
- * GetProtosFuncParams Parameters
+ * getProtosParams Parameters
  */
-export interface GetProtosFuncParams {
+export interface getProtosParams {
     /**
      * "desc" determines the order of Protos returned, set "desc" true to return in desc order, and false to return in ascending order.
      */
@@ -91,9 +91,9 @@ export interface GetProtosFuncParams {
 export type ProtoHash = string | Uint8Array | null;
 
 /**
- * ProtoUploadFuncParams Parameters
+ * protoUploadParams Parameters
  */
- export interface ProtoUploadFuncParams {
+ export interface protoUploadParams {
     /**
      * "references" allows user to link proto to another created proto
      */
@@ -124,9 +124,9 @@ export type ProtoHash = string | Uint8Array | null;
 }
 
 /**
- * ProtoSetMetadataFuncParams Parameters
+ * protoSetMetadataParams Parameters
  */
-export interface ProtoSetMetadataFuncParams {
+export interface protoSetMetadataParams {
     /**
      * "protoHash" is the hash of the proto to set the metadata.
      */
@@ -139,9 +139,9 @@ export interface ProtoSetMetadataFuncParams {
 }
 
 /**
- * GetProtosGenealogyFuncParams Parameters
+ * getProtosGenealogyParams Parameters
  */
-export interface GetProtosGenealogyFuncParams {
+export interface getProtosGenealogyParams {
     /**
      * Set "getAncestor" true to get the proto ancestors, set to false to get the proto descendants. 
      */
@@ -162,7 +162,7 @@ export interface GetProtosGenealogyFuncParams {
  * 
  * @example Upload a proto with no reference, category text: plain, tags
  * 
- * let paramProtoUpload: ProtoUploadFuncParams = {
+ * let paramProtoUpload: protoUploadParams = {
  *      references: [],
  *      category: {text: "plain"},
  *      tags: ['nar_character'],
@@ -174,7 +174,7 @@ export interface GetProtosGenealogyFuncParams {
  * let protoUploadRes = await protoUpload(paramProtoUpload);
  *  
  */
-export async function upload(protoUploadParams: ProtoUploadFuncParams, user: AddressOrPair): Promise<any> {
+export async function upload(protoUploadParams: protoUploadParams, user: AddressOrPair): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -207,7 +207,7 @@ export async function upload(protoUploadParams: ProtoUploadFuncParams, user: Add
  * 
  * @example Upload a proto with no reference, category text: plain, tags
  * 
- * let paramProtoUpload: ProtoUploadFuncParams = {
+ * let paramProtoUpload: protoUploadParams = {
  *      references: [],
  *      category: {text: "plain"},
  *      tags: ['nar_character'],
@@ -219,7 +219,7 @@ export async function upload(protoUploadParams: ProtoUploadFuncParams, user: Add
  * let protoUploadRes = await protoUpload(paramProtoUpload);
  *  
  */
- export async function uploadTrait(protoUploadParams: ProtoUploadFuncParams, user: AddressOrPair): Promise<any> {
+ export async function uploadTrait(protoUploadParams: protoUploadParams, user: AddressOrPair): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -252,7 +252,7 @@ export async function upload(protoUploadParams: ProtoUploadFuncParams, user: Add
  * 
  * @example Upload a proto with no reference, category text: plain, tags
  * 
- * let paramProtoUpload: ProtoUploadFuncParams = {
+ * let paramProtoUpload: protoUploadParams = {
  *      references: [],
  *      category: {text: "plain"},
  *      tags: ['nar_character'],
@@ -264,7 +264,7 @@ export async function upload(protoUploadParams: ProtoUploadFuncParams, user: Add
  * let protoUploadRes = await protoUpload(paramProtoUpload);
  *  
  */
- export async function uploadImage(protoUploadParams: ProtoUploadFuncParams, user: AddressOrPair): Promise<any> {
+ export async function uploadImage(protoUploadParams: protoUploadParams, user: AddressOrPair): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -296,7 +296,7 @@ export async function upload(protoUploadParams: ProtoUploadFuncParams, user: Add
  * @param protoSetMetadataParams 
  * 
  * @example Set metadata parameter
- * let protoSetMetadataParams: ProtoSetMetadataFuncParams = {
+ * let protoSetMetadataParams: protoSetMetadataParams = {
  *      protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
  *      data: 'test title 01'
  *  }
@@ -304,7 +304,7 @@ export async function upload(protoUploadParams: ProtoUploadFuncParams, user: Add
  *  let protoSetMetadataRes = await protoSetMetadata(protoSetMetadataParams);
  * 
  */
-export async function setMetadataTitle(protoSetMetadataParams: ProtoSetMetadataFuncParams, user: AddressOrPair): Promise<any> {
+export async function setMetadataTitle(protoSetMetadataParams: protoSetMetadataParams, user: AddressOrPair): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -323,7 +323,7 @@ export async function setMetadataTitle(protoSetMetadataParams: ProtoSetMetadataF
     }
 }
 
-export async function setMetadataDescription(protoSetMetadataParams: ProtoSetMetadataFuncParams, user: AddressOrPair): Promise<any> {
+export async function setMetadataDescription(protoSetMetadataParams: protoSetMetadataParams, user: AddressOrPair): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -342,7 +342,7 @@ export async function setMetadataDescription(protoSetMetadataParams: ProtoSetMet
     }
 }
 
-export async function setMetadataImage(protoSetMetadataParams: ProtoSetMetadataFuncParams, user: AddressOrPair): Promise<any> {
+export async function setMetadataImage(protoSetMetadataParams: protoSetMetadataParams, user: AddressOrPair): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -368,7 +368,7 @@ export async function setMetadataImage(protoSetMetadataParams: ProtoSetMetadataF
  * @returns 
  * 
  * @example Get protos example
- * let paramGetProtos: GetProtosFuncParams = {        
+ * let paramGetProtos: getProtosParams = {        
  *      desc: true, 
  *      fromIndex: 0, 
  *      limit: 10, 
@@ -383,7 +383,7 @@ export async function setMetadataImage(protoSetMetadataParams: ProtoSetMetadataF
  * 
  *  let getProtosRes = await getProtos(paramGetProtos);
  */
-export async function get(getProtosParams: GetProtosFuncParams): Promise<any> {
+export async function get(getProtosParams: getProtosParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -428,7 +428,7 @@ export async function get(getProtosParams: GetProtosFuncParams): Promise<any> {
  * @returns 
  * 
  * @example Get Proto Genealogy
- * let getProtosGenealogyFuncParams: GetProtosGenealogyFuncParams = {
+ * let getProtosGenealogyFuncParams: getProtosGenealogyParams = {
  *      getAncestor: true, 
  *      protoHash: '81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413'
  * }
@@ -436,7 +436,7 @@ export async function get(getProtosParams: GetProtosFuncParams): Promise<any> {
  * let getProtosGenealogyRes = await getProtosGenealogy(getProtosGenealogyFuncParams);
  * 
  */
-export async function getGenealogy(getProtosGenealogyParams: GetProtosGenealogyFuncParams): Promise<any> {
+export async function getGenealogy(getProtosGenealogyParams: getProtosGenealogyParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 

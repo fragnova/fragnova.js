@@ -34,9 +34,9 @@ export type availableCategories = {
 
 
 /**
- * FragmentsGetDefinitionsFuncParams Parameters
+ * fragmentsGetDefinitionsParams Parameters
  */
-export interface FragmentsGetDefinitionsFuncParams {
+export interface fragmentsGetDefinitionsParams {
     /**
      * "desc" determines the order of fragment definitions returned, set "desc" true to return in desc order, and false to return in ascending order.
      */
@@ -59,9 +59,9 @@ export interface FragmentsGetDefinitionsFuncParams {
 }
 
 /**
- * FragmentsGetInstancesFuncParams Parameters
+ * fragmentsGetInstancesParams Parameters
  */
-export interface FragmentsGetInstancesFuncParams {
+export interface fragmentsGetInstancesParams {
     /**
      * "desc" determines the order of fragment instances returned, set "desc" true to return in desc order, and false to return in ascending order.
      */
@@ -84,9 +84,9 @@ export interface FragmentsGetInstancesFuncParams {
 }
 
 /**
- * FragmentsGetInstanceOwnerFuncParams Parameters
+ * fragmentsGetInstanceOwnerParams Parameters
  */
-export interface FragmentsGetInstanceOwnerFuncParams {
+export interface fragmentsGetInstanceOwnerParams {
     /**
      * Hash of the definition that you want to get instances from.
      */
@@ -112,7 +112,7 @@ export interface FragmentsGetInstanceOwnerFuncParams {
  * 
  * @example 
  * 
- * let fragmentsGetDefinitionsParams: FragmentsGetDefinitionsFuncParams = {
+ * let fragmentsGetDefinitionsParams: fragmentsGetDefinitionsParams = {
  *      desc: true,
  *      fromIndex: 0,
  *      limit: 10
@@ -121,7 +121,7 @@ export interface FragmentsGetInstanceOwnerFuncParams {
  * let fragmentsGetDefinitionsRes = await fragmentsGetDefinitions(fragmentsGetDefinitionsParams);
  * 
  */
-export async function getDefinitions(fragmentsGetDefinitionsParams: FragmentsGetDefinitionsFuncParams): Promise<any> {
+export async function getDefinitions(fragmentsGetDefinitionsParams: fragmentsGetDefinitionsParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -156,7 +156,7 @@ export async function getDefinitions(fragmentsGetDefinitionsParams: FragmentsGet
  * @returns 
  * 
  * @example fragmentsGetInstances
- * let fragmentsGetInstancesParams: FragmentsGetInstancesFuncParams = {
+ * let fragmentsGetInstancesParams: fragmentsGetInstancesParams = {
  *      desc: true,
  *      fromIndex: 0,
  *      limit: 10,
@@ -165,7 +165,7 @@ export async function getDefinitions(fragmentsGetDefinitionsParams: FragmentsGet
  * 
  * let fragmentsGetInstancesRes = await fragmentsGetInstances(fragmentsGetInstancesParams);
  */
-export async function getInstances(fragmentsGetInstancesParams: FragmentsGetInstancesFuncParams): Promise<any> {
+export async function getInstances(fragmentsGetInstancesParams: fragmentsGetInstancesParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
@@ -199,7 +199,7 @@ export async function getInstances(fragmentsGetInstancesParams: FragmentsGetInst
  * @param fragmentsGetInstanceOwnerParams 
  * 
  * @example fragmentsGetInstanceOwner
- * let fragmentsGetInstanceOwnerParams: FragmentsGetInstanceOwnerFuncParams = {
+ * let fragmentsGetInstanceOwnerParams: fragmentsGetInstanceOwnerParams = {
  *      definitionHash: '0xe69267a99be24967935972418017ea96', 
  *      editionId: 1,
  *      copyId: 1
@@ -208,7 +208,7 @@ export async function getInstances(fragmentsGetInstancesParams: FragmentsGetInst
  * let fragmentsGetInstanceOwnerRes = await fragmentsGetInstanceOwner(fragmentsGetInstanceOwnerParams);
  * 
  */
-export async function getInstanceOwner(fragmentsGetInstanceOwnerParams: FragmentsGetInstanceOwnerFuncParams): Promise<any> {
+export async function getInstanceOwner(fragmentsGetInstanceOwnerParams: fragmentsGetInstanceOwnerParams): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
