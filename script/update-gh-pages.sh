@@ -5,7 +5,7 @@
 set -eu  
 
 # REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-REPO_URL="https://x-access-token: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@github.com/fragnova.js.git"
+REPO_URL="https://x-access-token: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@github.com/fragcolor-xyz/fragnova.js.git"
 
 REMOTE_NAME="origin"
 MAIN_BRANCH="main"
