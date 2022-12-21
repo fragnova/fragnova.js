@@ -4,7 +4,9 @@
 # `set -u`: Treat unset variables as an error when substituting.
 set -eu  
 
-REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+# REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+REPO_URL="https://x-access-token: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@github.com/fragnova.js.git"
+
 REMOTE_NAME="origin"
 MAIN_BRANCH="main"
 TARGET_BRANCH="gh-pages"
@@ -16,14 +18,15 @@ DOC_FOLDER_TARGET_BRANCH="docs"
 # git config user.name "$BOT_NAME"
 # git config user.email "$BOT_EMAIL"
 
-cd ..
+# cd 
 git config user.name "Fragcolor bot"
 git config user.email "bot@fragcolor.xyz"
 
-npx typedoc src/interfaces/protos/index.ts src/interfaces/fragments/index.ts src/interfaces/augment-api-consts.ts  src/interfaces/augment-api-errors.ts src/interfaces/augment-api-events.ts src/interfaces/augment-api-query.ts src/interfaces/augment-api-rpc.ts src/interfaces/augment-api-runtime.ts src/interfaces/augment-api-tx.ts src/interfaces/augment-types.ts src/interfaces/augment-types.ts # saves doc in $DOC_FOLDER_MAIN_BRANCH
-
 git fetch
 git checkout "$TARGET_BRANCH"
+
+npx typedoc src/interfaces/protos/index.ts src/interfaces/fragments/index.ts src/interfaces/augment-api-consts.ts  src/interfaces/augment-api-errors.ts src/interfaces/augment-api-events.ts src/interfaces/augment-api-query.ts src/interfaces/augment-api-rpc.ts src/interfaces/augment-api-runtime.ts src/interfaces/augment-api-tx.ts src/interfaces/augment-types.ts src/interfaces/augment-types.ts # saves doc in $DOC_FOLDER_MAIN_BRANCH
+
 git add "docs" # update the docs folder 
 
 git commit -m "Updated GitHub Pages"
