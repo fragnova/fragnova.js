@@ -107,6 +107,7 @@ export interface fragmentsGetInstanceOwnerParams {
 
 /**
  * 
+ * **Query** and **Return** **Fragment Definition(s)** based on **`params`**
  * @param fragmentsGetDefinitionsParams 
  * @returns 
  * 
