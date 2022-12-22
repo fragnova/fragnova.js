@@ -107,9 +107,9 @@ export interface fragmentsGetInstanceOwnerParams {
 
 /**
  * 
- * **Query** and **Return** **Fragment Definition(s)** based on **`params`**
+ * **Query** and **Return** **Fragment Definition(s)** based on **`fragmentsGetDefinitionsParams`**
+ * 
  * @param fragmentsGetDefinitionsParams 
- * @returns 
  * 
  * @example 
  * 
@@ -153,8 +153,9 @@ export async function getDefinitions(fragmentsGetDefinitionsParams: fragmentsGet
 
 /**
  * 
+ * **Query** and **Return** **Fragment Instance(s)** based on **`fragmentsGetInstancesParams`**
+ * 
  * @param fragmentsGetInstancesParams 
- * @returns 
  * 
  * @example fragmentsGetInstances
  * let fragmentsGetInstancesParams: fragmentsGetInstancesParams = {
@@ -196,6 +197,7 @@ export async function getInstances(fragmentsGetInstancesParams: fragmentsGetInst
 }
 
 /**
+ * Query the owner of a Fragment Instance. The return type is a String
  * 
  * @param fragmentsGetInstanceOwnerParams 
  * 
@@ -231,7 +233,9 @@ export async function getInstanceOwner(fragmentsGetInstanceOwnerParams: fragment
 
         console.log(obj);
         console.log('sent with transaction hash', result.toHex());
+        return obj;
     } catch(e){
         console.log('Error: ' + e);
+        return 'Error: ' + e;
     }
 }

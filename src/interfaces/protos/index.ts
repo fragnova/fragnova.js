@@ -156,7 +156,7 @@ export interface getProtosGenealogyParams {
 
 /**
  * 
- * protoUpload is used to upload a proto
+ * **Upload** a **Proto** onto the **Blockchain**.
  * 
  * @param protoUploadParams
  * 
@@ -202,6 +202,7 @@ export async function upload(protoUploadParams: protoUploadParams, user: Address
 
 /**
  * 
+ * **Upload** a **Proto** onto the **Blockchain**.
  * 
  * @param protoUploadParams
  * 
@@ -248,9 +249,11 @@ export async function upload(protoUploadParams: protoUploadParams, user: Address
 
 /**
  * 
+ * **Upload** a **Proto** onto the **Blockchain**.
+ * 
  * @param protoUploadParams
  * 
- * @example Upload a proto with no reference, category text: plain, tags
+ * @example // Upload a proto with no reference, category text: plain, tags
  * 
  * let paramProtoUpload: protoUploadParams = {
  *      references: [],
@@ -293,9 +296,11 @@ export async function upload(protoUploadParams: protoUploadParams, user: Address
 
 /**
  *
+ * Set the metadata `title` for a specific Proto.
+ * 
  * @param protoSetMetadataParams 
  * 
- * @example Set metadata parameter
+ * @example // Set metadata title
  * let protoSetMetadataParams: protoSetMetadataParams = {
  *      protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
  *      data: 'test title 01'
@@ -323,6 +328,21 @@ export async function setMetadataTitle(protoSetMetadataParams: protoSetMetadataP
     }
 }
 
+/**
+ * 
+ * Set the metadata `title` for a specific Proto.
+ * 
+ * @param protoSetMetadataParams 
+ * @param user 
+ * 
+ * @example // Set metadata description 
+ * let protoSetMetadataParams: protoSetMetadataFuncParams = {
+ *      protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
+ *      data: 'test description 01'
+ * }
+ * let protoSetMetadataRes = await protoSetMetadataDescription(protoSetMetadataParams);
+ * 
+ */
 export async function setMetadataDescription(protoSetMetadataParams: protoSetMetadataParams, user: AddressOrPair): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
@@ -342,6 +362,21 @@ export async function setMetadataDescription(protoSetMetadataParams: protoSetMet
     }
 }
 
+/**
+ * 
+ * Set the metadata `image` for a specific Proto.
+ * 
+ * @param protoSetMetadataParams 
+ * @param user 
+ * 
+ * @example // Set metadata image 
+ * let protoSetMetadataParams: protoSetMetadataFuncParams = {
+ *      protoHash: '0x81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413',
+ *      data: '0x0b000000000000007a90010089504e470d0a1a0a0000000d494844520000027e0000027a08'
+ * }
+ * let protoSetMetadataRes = await protoSetMetadataDescription(protoSetMetadataParams); 
+ * 
+ */
 export async function setMetadataImage(protoSetMetadataParams: protoSetMetadataParams, user: AddressOrPair): Promise<any> {
     // extract all types from definitions - fast and dirty approach, flatted on 'types'
     const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
@@ -361,13 +396,13 @@ export async function setMetadataImage(protoSetMetadataParams: protoSetMetadataP
     }
 }
 
-// specify the type for category and tags
 /**
  * 
- * @param getProtosParams 
- * @returns 
+ * Get a list of Protos based on `getProtosParams`.
  * 
- * @example Get protos example
+ * @param getProtosParams 
+ * 
+ * @example // Get protos example
  * let paramGetProtos: getProtosParams = {        
  *      desc: true, 
  *      fromIndex: 0, 
@@ -411,9 +446,8 @@ export async function get(getProtosParams: getProtosParams): Promise<any> {
     try {
         const txHash = await api.rpc.protos.getProtos(protoParams);
         let listOfProtosObj = JSON.parse(txHash.toJSON());
-        // console.log('listOfProtosObj');
-        // console.log(listOfProtosObj);
-        // console.log('sent with transaction hash', txHash.toHex());
+        console.log(listOfProtosObj);
+        console.log('sent with transaction hash', txHash.toHex());
 
         return listOfProtosObj;
     } catch(e){
@@ -424,10 +458,12 @@ export async function get(getProtosParams: getProtosParams): Promise<any> {
 
 /**
  * 
- * @param getProtosGenealogyParams 
- * @returns 
+ * Return the Proto Genealogy, get the descendants and ancestors of a Proto.
+ * The **return type** is a **JSON string** that represents an Adjacency List.
  * 
- * @example Get Proto Genealogy
+ * @param getProtosGenealogyParams 
+ * 
+ * @example // Get Proto Genealogy
  * let getProtosGenealogyFuncParams: getProtosGenealogyParams = {
  *      getAncestor: true, 
  *      protoHash: '81d8f8641d30d27eef6500716668f0f7e904acfbe475d688363a9a280bfb4413'
@@ -456,9 +492,8 @@ export async function getGenealogy(getProtosGenealogyParams: getProtosGenealogyP
     try {
         const txHash = await api.rpc.protos.getGenealogy(protoParams);
         let listOfProtosObj = JSON.parse(txHash.toJSON());
-        // console.log('Get genealogy');
-        // console.log(listOfProtosObj);
-        // console.log('sent with transaction hash', txHash.toHex());
+        console.log(listOfProtosObj);
+        console.log('sent with transaction hash', txHash.toHex());
 
         return listOfProtosObj;
     } catch(e){
