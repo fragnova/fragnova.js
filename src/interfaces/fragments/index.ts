@@ -111,7 +111,7 @@ export interface fragmentsGetInstanceOwnerParams {
  * 
  * @param fragmentsGetDefinitionsParams 
  * 
- * @example 
+ * @example // Query and Return Fragment Definition(s) based on `fragmentsGetDefinitionsParams`" 
  * 
  * let fragmentsGetDefinitionsParams: fragmentsGetDefinitionsParams = {
  *      desc: true,
@@ -157,7 +157,8 @@ export async function getDefinitions(fragmentsGetDefinitionsParams: fragmentsGet
  * 
  * @param fragmentsGetInstancesParams 
  * 
- * @example fragmentsGetInstances
+ * @example // Query and Return Fragment Instance(s) based on `fragmentsGetInstancesParams`" 
+ * 
  * let fragmentsGetInstancesParams: fragmentsGetInstancesParams = {
  *      desc: true,
  *      fromIndex: 0,
@@ -201,7 +202,9 @@ export async function getInstances(fragmentsGetInstancesParams: fragmentsGetInst
  * 
  * @param fragmentsGetInstanceOwnerParams 
  * 
- * @example fragmentsGetInstanceOwner
+ * @example // fragmentsGetInstanceOwner
+ * fragmentsGetDefinitionsParams
+ * 
  * let fragmentsGetInstanceOwnerParams: fragmentsGetInstanceOwnerParams = {
  *      definitionHash: '0xe69267a99be24967935972418017ea96', 
  *      editionId: 1,

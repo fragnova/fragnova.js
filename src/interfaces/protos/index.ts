@@ -160,7 +160,7 @@ export interface getProtosGenealogyParams {
  * 
  * @param protoUploadParams
  * 
- * @example Upload a proto with no reference, category text: plain, tags
+ * @example // Upload a proto with no reference, category text: plain, tags
  * 
  * let paramProtoUpload: protoUploadParams = {
  *      references: [],
@@ -206,7 +206,7 @@ export async function upload(protoUploadParams: protoUploadParams, user: Address
  * 
  * @param protoUploadParams
  * 
- * @example Upload a proto with no reference, category text: plain, tags
+ * @example // Upload a proto with no reference, category text: plain, tags
  * 
  * let paramProtoUpload: protoUploadParams = {
  *      references: [],
