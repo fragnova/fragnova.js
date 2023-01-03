@@ -1,6 +1,6 @@
 {
   "name": "@fragcolor/sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JavaScript/TypeScript SDK for the Fragnova Blockchain",
   "type": "module",
   "main": "src/index.js",
