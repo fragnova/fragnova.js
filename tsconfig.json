@@ -21,19 +21,19 @@
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
-      "baseUrl": ".",
+      "baseUrl": "./",
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
       "outDir": "./dist",
       "typeRoots": [
-        "./node_modules/@types"
+        "../../node_modules/@types"
       ],
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true
     },
     "exclude": [
       "build/**/*",
-      "node_modules"
+      "../../node_modules"
     ],
     "ts-node": {
       "esm": true
