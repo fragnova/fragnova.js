@@ -1,7 +1,8 @@
 {
   "exclude": [
     "build/**/*",
-    "**/build/**/*"
+    "**/build/**/*",
+    "node_modules"
   ],
   "compilerOptions": {
     "target": "es2019",

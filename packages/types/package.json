@@ -2,7 +2,7 @@
   "name": "@fragcolor/types",
   "author": "Fragcolor Pte. Ltd",
   "version": "0.0.1",
-  "description": "Polkadot.js Type Definitions of the Fragnova Blockchain",
+  "description": "Polkadot.js Type Definitions (https://polkadot.js.org/docs/api/examples/promise/typegen/) of the Fragnova Blockchain",
   "type": "module",
   "main": "src/index.js",
   "types": "src/index.d.ts",
