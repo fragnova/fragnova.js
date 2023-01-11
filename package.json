@@ -1,40 +1,9 @@
 {
-  "name": "@fragcolor/sdk",
-  "version": "0.0.2",
-  "description": "JavaScript/TypeScript SDK for the Fragnova Blockchain",
-  "type": "module",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
-  "scripts": {
-    "build": "yarn generate:defs && yarn generate:meta",
-    "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package sample-polkadotjs-typegen/interfaces --input ./src/interfaces --endpoint ./fragnova.json",
-    "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package sample-polkadotjs-typegen/interfaces --endpoint ./fragnova.json --output ./src/interfaces",
-    "lint": "tsc --noEmit --pretty"
-  },
+  "private": true,
   "author": "Fragcolor Pte. Ltd",
-  "license": "MIT",
-  "keywords": [
-    "fragnova",
-    "fragcolor"
-  ],
-  "dependencies": {
-    "@fragcolor/protos": "^0.0.7",
-    "@polkadot/api": "^9.8.2",
-    "tsoa": "^4.1.3",
-    "typedoc": "^0.23.21"
-  },
-  "devDependencies": {
-    "@polkadot/typegen": "^9.8.2",
-    "concurrently": "^7.6.0",
-    "ts-node": "^8.10.2",
-    "typescript": "^4.8.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fragcolor-xyz/fragnova.js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/fragcolor-xyz/fragnova.js/issues"
-  },
-  "homepage": "https://github.com/fragcolor-xyz/fragnova.js#readme"
+  "version": "0.0.1",
+  "description": "",
+  "workspaces": [
+    "./packages/types"
+  ]
 }
