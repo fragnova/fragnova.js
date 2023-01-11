@@ -1,41 +1,28 @@
 {
-    "compilerOptions": {
-      // this is specific with augmented overrides
-      "paths": {
-        // this is the package name we use (in the interface imports, --package for generators)
-        "sample-polkadotjs-typegen/*": ["src/*"],
-        // here we replace the @polkadot/api augmentation with our own, generated from chain
-        "@polkadot/api/augment": ["src/interfaces/augment-api.ts"],
-        // replace the augmented types with our own, as generated from definitions
-        "@polkadot/types/augment": ["src/interfaces/augment-types.ts"]
-      },
-      // some other options, whatever you want for your environment
-      "target": "es5",
-      "module": "commonjs",
-      "jsx": "preserve",
-      "declaration": true,
-      "strict": true,
-      "noImplicitAny": true,
-      "noUnusedLocals": true,
-      "noImplicitReturns": true,
-      "moduleResolution": "node",
-      "allowSyntheticDefaultImports": true,
-      "esModuleInterop": true,
-      "baseUrl": "./",
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
-      "outDir": "./dist",
-      "typeRoots": [
-        "../../node_modules/@types"
-      ],
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true
+  "exclude": [
+    "build/**/*",
+    "**/build/**/*"
+  ],
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "CommonJS",
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "paths": {
+      "@fragcolor/api": ["packages/api/src"],
+      "@fragcolor/api/*": ["packages/api/src/*"],
+      "@fragcolor/types": ["packages/types/src"],
+      // this is the package name we use (in the interface imports, --package for generators). See: https://polkadot.js.org/docs/api/examples/promise/typegen/#typescript-config
+      "@fragcolor/types/*": ["packages/types/src/*"],
+      // here we replace the @polkadot/api augmentation with our own, generated from chain
+      "@polkadot/api/augment": ["packages/types/src/interfaces/augment-api.ts"],
+      // replace the augmented types with our own, as generated from definitions
+      "@polkadot/types/augment": ["packages/types/src/interfaces/augment-types.ts"]
     },
-    "exclude": [
-      "build/**/*",
-      "../../node_modules"
-    ],
-    "ts-node": {
-      "esm": true
-    }
+    "skipLibCheck": true,
+    "typeRoots": [
+      "./node_modules/@polkadot/ts",
+      "./node_modules/@types"
+    ]
   }
+}

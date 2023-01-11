@@ -8,8 +8,8 @@
   "types": "src/index.d.ts",
   "scripts": {
     "build": "yarn generate:defs && yarn generate:meta",
-    "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package sample-polkadotjs-typegen/interfaces --input ./src/interfaces --endpoint ./fragnova.json",
-    "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package sample-polkadotjs-typegen/interfaces --endpoint ./fragnova.json --output ./src/interfaces",
+    "generate:defs": "ts-node --skip-project ../../node_modules/.bin/polkadot-types-from-defs --package @fragcolor/types/interfaces --input ./src/interfaces --endpoint ./fragnova.json",
+    "generate:meta": "ts-node --skip-project ../../node_modules/.bin/polkadot-types-from-chain --package @fragcolor/types/interfaces --endpoint ./fragnova.json --output ./src/interfaces",
     "lint": "tsc --noEmit --pretty"
   },
   "license": "MIT",
