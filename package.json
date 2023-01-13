@@ -6,7 +6,10 @@
   "workspaces": [
     "./packages/types",
     "./packages/api",
-    "./packages/sdk",
-    "./packages/dummy"
-  ]
+    "./packages/sdk"
+  ],
+  "name": "fragnova.js",
+  "devDependencies": {
+    "lerna": "^6.4.1"
+  }
 }

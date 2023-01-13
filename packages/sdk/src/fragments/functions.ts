@@ -8,7 +8,7 @@ import {
     GetDefinitionsParams as ClamorGetDefinitionsParams,
     GetInstancesParams as ClamorGetInstancesParams,
     GetInstanceOwnerParams as ClamorGetInstanceOwnerParams,
-} from "@fragcolor/types";
+} from "@fragnova/types";
 
 import * as types from "./types";
 import {MintParams} from "./types";

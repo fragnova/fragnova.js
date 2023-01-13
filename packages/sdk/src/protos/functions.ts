@@ -6,7 +6,7 @@ import { ProtosCategories } from "@polkadot/types/lookup";
 import {
     GetProtosParams as ClamorGetProtosParams,
     GetGenealogyParams as ClamorGetGenealogyParams,
-} from "@fragcolor/types";
+} from "@fragnova/types";
 
 import * as types from "./types";
 

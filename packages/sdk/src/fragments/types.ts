@@ -1,4 +1,4 @@
-import {ProtoHash} from "@fragcolor/sdk/protos";
+import {ProtoHash} from "@fragnova/sdk/protos";
 
 export type DefinitionHash = string | Uint8Array;
 export type FragmentBuyOptions = {Quantity: number} | {UniqueData: string | Uint8Array}

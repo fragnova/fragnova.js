@@ -1,10 +1,11 @@
 # fragnova.js
+
 JavaScript/TypeScript SDK for the Fragnova Blockchain
 
 This is a Mono-Repo that contains the following NPM TypeScript Packages:
-1. @fragcolor/types
-2. @fragcolor/api
-3. @fragcolor/sdk
+1. @fragnova/types
+2. @fragnova/api
+3. @fragnova/sdk
 
 ## Notes for those wanting to contribute to the `fragnova.js` repo
 

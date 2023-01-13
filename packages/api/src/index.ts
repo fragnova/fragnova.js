@@ -1,5 +1,5 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { definitions } from "@fragcolor/types";
+import { definitions } from "@fragnova/types";
 
 const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 

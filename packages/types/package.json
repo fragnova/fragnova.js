@@ -1,15 +1,15 @@
 {
-  "name": "@fragcolor/types",
+  "name": "@fragnova/types",
   "author": "Fragcolor Pte. Ltd",
-  "version": "0.0.1",
+  "version": "1.0.0-beta.0",
   "description": "Polkadot.js Type Definitions (https://polkadot.js.org/docs/api/examples/promise/typegen/) of the Fragnova Blockchain",
   "type": "module",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
     "build": "yarn generate:defs && yarn generate:meta",
-    "generate:defs": "ts-node --skip-project ../../node_modules/.bin/polkadot-types-from-defs --package @fragcolor/types/interfaces --input ./src/interfaces --endpoint ./fragnova.json",
-    "generate:meta": "ts-node --skip-project ../../node_modules/.bin/polkadot-types-from-chain --package @fragcolor/types/interfaces --endpoint ./fragnova.json --output ./src/interfaces",
+    "generate:defs": "ts-node --skip-project ../../node_modules/.bin/polkadot-types-from-defs --package @fragnova/types/interfaces --input ./src/interfaces --endpoint ./fragnova.json",
+    "generate:meta": "ts-node --skip-project ../../node_modules/.bin/polkadot-types-from-chain --package @fragnova/types/interfaces --endpoint ./fragnova.json --output ./src/interfaces",
     "lint": "tsc --noEmit --pretty"
   },
   "license": "MIT",
