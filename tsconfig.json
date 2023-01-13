@@ -12,13 +12,17 @@
     "paths": {
       "@fragcolor/api": ["packages/api/src"],
       "@fragcolor/api/*": ["packages/api/src/*"],
+
       "@fragcolor/types": ["packages/types/src"],
       // this is the package name we use (in the interface imports, --package for generators). See: https://polkadot.js.org/docs/api/examples/promise/typegen/#typescript-config
       "@fragcolor/types/*": ["packages/types/src/*"],
-      // here we replace the @polkadot/api augmentation with our own, generated from chain
+      // here we replace the @polkadot/api augmentation with our own, generated from chain. See: https://polkadot.js.org/docs/api/examples/promise/typegen/#typescript-config
       "@polkadot/api/augment": ["packages/types/src/interfaces/augment-api.ts"],
-      // replace the augmented types with our own, as generated from definitions
-      "@polkadot/types/augment": ["packages/types/src/interfaces/augment-types.ts"]
+      // replace the augmented types with our own, as generated from definitions. See: https://polkadot.js.org/docs/api/examples/promise/typegen/#typescript-config
+      "@polkadot/types/augment": ["packages/types/src/interfaces/augment-types.ts"],
+
+      "@fragcolor/sdk": [ "packages/sdk/src"],
+      "@fragcolor/sdk/*": ["packages/sdk/src/*"]
     },
     "skipLibCheck": true,
     "typeRoots": [

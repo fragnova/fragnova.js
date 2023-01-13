@@ -4,6 +4,9 @@
   "version": "0.0.1",
   "description": "",
   "workspaces": [
-    "./packages/types"
+    "./packages/types",
+    "./packages/api",
+    "./packages/sdk",
+    "./packages/dummy"
   ]
 }

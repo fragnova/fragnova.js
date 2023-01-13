@@ -1,11 +1,14 @@
-import {ApiPromise} from '@polkadot/api';
-import {definitions} from "@fragcolor/types";
+import { ApiPromise, WsProvider } from '@polkadot/api';
+import { definitions } from "@fragcolor/types";
 
 const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
-export async function createFragnovaApi(rpcProvider): Promise<ApiPromise> {
+export async function createFragnovaApi(endpointUrl): Promise<ApiPromise> {
+
+    const wsProvider = new WsProvider(endpointUrl);
+
     const api = await ApiPromise.create({
-        provider: rpcProvider,
+        provider: wsProvider,
         types: {
             ...types,
         },
