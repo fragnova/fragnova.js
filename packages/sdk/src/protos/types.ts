@@ -45,6 +45,14 @@ export interface UploadParams {
     data: string | Uint8Array;
 }
 
+type SupportedChains = "EthereumMainnet" | "EthereumRinkeby" | "EthereumGoerli";
+
+export interface DetachParams {
+    protoHashes: Array<ProtoHash>,
+    targetChain: SupportedChains,
+    targetAccount: Uint8Array | `0x${string}`
+}
+
 /**
  * SetMetadataParams Parameters
  */

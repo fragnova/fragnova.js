@@ -1,6 +1,7 @@
 import { ApiPromise } from '@polkadot/api';
 import { Vec, U8aFixed } from '@polkadot/types-codec';
 import { AddressOrPair } from '@polkadot/api/types';
+import { Hash } from '@polkadot/types/interfaces';
 
 import { ProtosCategories } from "@polkadot/types/lookup";
 import {
@@ -42,7 +43,6 @@ export class Protos {
      */
     async upload(signer: AddressOrPair, uploadParams: types.UploadParams): Promise<any> {
         try {
-
             const txHash = await this.api.tx.protos.upload(
                 uploadParams.references as Vec<U8aFixed>, uploadParams.category as ProtosCategories, uploadParams.tags, uploadParams.linkedAssets, uploadParams.license, uploadParams.data
             ).signAndSend(signer);
@@ -51,6 +51,16 @@ export class Protos {
         } catch(e){
             console.log('Error: ' + e);
         }
+    }
+
+    async detach(signer: AddressOrPair, detachParams: types.DetachParams): Promise<Hash> {
+        const txHash = await this.api.tx.protos.detach(
+            detachParams.protoHashes,
+            detachParams.targetChain,
+            detachParams.targetAccount
+        ).signAndSend(signer);
+
+        return txHash;
     }
 
 

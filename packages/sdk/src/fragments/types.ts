@@ -6,7 +6,7 @@ export type FragmentBuyOptions = {Quantity: number} | {UniqueData: string | Uint
 export interface CreateParams {
     protoHash: ProtoHash;
     metadata: {name: string, currency: "Native" | {Custom: number}};
-    permissions: number, // TODO - Review
+    permissions: Uint8Array, // TODO - Review
     unique: null | {mutable: boolean};
     maxSupply: null | number
 }
@@ -15,6 +15,15 @@ export interface MintParams {
     definitionHash: DefinitionHash;
     options: FragmentBuyOptions;
     stackAmount: null | number,
+}
+
+type SupportedChains = "EthereumMainnet" | "EthereumRinkeby" | "EthereumGoerli";
+
+export interface DetachParams {
+    definitionHash: DefinitionHash,
+    editionIds: Array<number>,
+    targetChain: SupportedChains,
+    targetAccount: Uint8Array | `0x${string}`
 }
 
 /**

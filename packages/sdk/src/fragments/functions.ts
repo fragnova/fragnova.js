@@ -2,8 +2,6 @@ import { ApiPromise } from '@polkadot/api';
 import { AddressOrPair } from '@polkadot/api/types';
 import { Hash } from '@polkadot/types/interfaces';
 
-import { ProtosPermissionsFragmentPerms } from "@polkadot/types/lookup";
-
 import {
     GetDefinitionsParams as ClamorGetDefinitionsParams,
     GetInstancesParams as ClamorGetInstancesParams,
@@ -11,7 +9,6 @@ import {
 } from "@fragnova/types";
 
 import * as types from "./types";
-import {MintParams} from "./types";
 
 export class Fragments {
     private api: ApiPromise;
@@ -34,11 +31,22 @@ export class Fragments {
         return txHash;
     }
 
-    async mint(signer: AddressOrPair, mintParams: MintParams): Promise<Hash> {
+    async mint(signer: AddressOrPair, mintParams: types.MintParams): Promise<Hash> {
         const txHash = await this.api.tx.fragments.mint(
             mintParams.definitionHash,
             mintParams.options,
             mintParams.stackAmount
+        ).signAndSend(signer);
+
+        return txHash;
+    }
+
+    async detach(signer: AddressOrPair, detachParams: types.DetachParams): Promise<Hash> {
+        const txHash = await this.api.tx.fragments.detach(
+            detachParams.definitionHash,
+            detachParams.editionIds,
+            detachParams.targetChain,
+            detachParams.targetAccount
         ).signAndSend(signer);
 
         return txHash;
@@ -93,7 +101,7 @@ export class Fragments {
      * @param getInstancesParams
      * @returns
      *
-     * @example fragmentsGetInstances
+     * @example getInstances
      * let fragmentsGetInstancesParams: FragmentsGetInstancesFuncParams = {
      *      desc: true,
      *      fromIndex: 0,
@@ -101,9 +109,9 @@ export class Fragments {
      *      definitionHash: 'e69267a99be24967935972418017ea96'
      * }
      *
-     * let fragmentsGetInstancesRes = await fragmentsGetInstances(fragmentsGetInstancesParams);
+     * let fragmentsGetInstancesRes = await getInstances(fragmentsGetInstancesParams);
      */
-    async fragmentsGetInstances(getInstancesParams: types.GetInstancesParams): Promise<any> {
+    async getInstances(getInstancesParams: types.GetInstancesParams): Promise<any> {
 
         const params: ClamorGetInstancesParams = this.api.registry.createType("GetInstancesParams", {
             desc: getInstancesParams.desc,
