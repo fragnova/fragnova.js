@@ -1,7 +1,7 @@
 {
   "name": "@fragnova/api",
   "author": "Fragcolor Pte. Ltd",
-  "version": "1.0.4-alpha.0",
+  "version": "1.0.5-alpha.0",
   "description": "The API object (https://polkadot.js.org/docs/api) that can be used to interact with the Fragnova Blockchain",
   "type": "module",
   "main": "src/index.js",
