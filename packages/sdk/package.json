@@ -1,7 +1,7 @@
 {
   "name": "@fragnova/sdk",
   "author": "Fragcolor Pte. Ltd",
-  "version": "1.0.5-alpha.0",
+  "version": "1.0.6-alpha.0",
   "description": "SDK for interacting with the Fragnova Blockchain",
   "main": "src/index.js",
   "license": "MIT",
