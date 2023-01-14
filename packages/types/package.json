@@ -1,11 +1,10 @@
 {
   "name": "@fragnova/types",
   "author": "Fragcolor Pte. Ltd",
-  "version": "1.0.3-alpha.0",
+  "version": "1.0.4-alpha.0",
   "description": "Polkadot.js Type Definitions (https://polkadot.js.org/docs/api/examples/promise/typegen/) of the Fragnova Blockchain",
   "type": "module",
   "main": "src/index.js",
-  "types": "src/index.d.ts",
   "scripts": {
     "build": "yarn generate:defs && yarn generate:meta",
     "generate:defs": "ts-node --skip-project ../../node_modules/.bin/polkadot-types-from-defs --package @fragnova/types/interfaces --input ./src/interfaces --endpoint ./fragnova.json",
@@ -33,6 +32,5 @@
   "bugs": {
     "url": "https://github.com/fragcolor-xyz/fragnova.js/issues"
   },
-  "homepage": "https://github.com/fragcolor-xyz/fragnova.js#readme",
-  "gitHead": "e874694906ef8b4cd8cce91cd6c3e9bb1181a9cd"
+  "homepage": "https://github.com/fragcolor-xyz/fragnova.js#readme"
 }
