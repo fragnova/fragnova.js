@@ -19,7 +19,7 @@ export interface MintParams {
 
 type SupportedChains = "EthereumMainnet" | "EthereumRinkeby" | "EthereumGoerli";
 
-export interface DetachParams {
+export interface DetachInstancesParams {
     definitionHash: DefinitionHash,
     editionIds: Array<number>,
     targetChain: SupportedChains,

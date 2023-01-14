@@ -10,4 +10,4 @@ export * from './interfaces/augment-types'; // Karan Da Kiya Hua
 
 // our local stuff
 export * as definitions from "./interfaces/definitions";
-export * from "./interfaces/types"
+export * from "./interfaces/types";

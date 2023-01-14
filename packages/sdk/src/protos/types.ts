@@ -35,9 +35,11 @@ export interface UploadParams {
     /**
      * Optional parameter "linkedAssets"
      */
-    linkedAssets: any; // TODO
+    linkedAsset: any; // TODO
 
     license: any; // TODO
+
+    cluster: null; // TODO
 
     /**
      * The data of the proto as string.
@@ -47,7 +49,7 @@ export interface UploadParams {
 
 type SupportedChains = "EthereumMainnet" | "EthereumRinkeby" | "EthereumGoerli";
 
-export interface DetachParams {
+export interface DetachProtosParams {
     protoHashes: Array<ProtoHash>,
     targetChain: SupportedChains,
     targetAccount: Uint8Array | `0x${string}`

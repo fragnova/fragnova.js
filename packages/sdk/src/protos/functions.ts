@@ -11,7 +11,6 @@ import {
 
 import * as types from "./types";
 
-
 export class Protos {
     private api: ApiPromise;
 
@@ -44,7 +43,13 @@ export class Protos {
     async upload(signer: AddressOrPair, uploadParams: types.UploadParams): Promise<any> {
         try {
             const txHash = await this.api.tx.protos.upload(
-                uploadParams.references as Vec<U8aFixed>, uploadParams.category as ProtosCategories, uploadParams.tags, uploadParams.linkedAssets, uploadParams.license, uploadParams.data
+                uploadParams.references as Vec<U8aFixed>,
+                uploadParams.category as ProtosCategories,
+                uploadParams.tags,
+                uploadParams.linkedAsset,
+                uploadParams.license,
+                uploadParams.cluster,
+                uploadParams.data
             ).signAndSend(signer);
 
             return txHash;
@@ -53,15 +58,29 @@ export class Protos {
         }
     }
 
-    async detach(signer: AddressOrPair, detachParams: types.DetachParams): Promise<Hash> {
+    async detach(signer: AddressOrPair, detachParams: types.DetachProtosParams): Promise<Hash> {
         const txHash = await this.api.tx.protos.detach(
-            detachParams.protoHashes,
+            detachParams.protoHashes as Vec<U8aFixed>,
             detachParams.targetChain,
             detachParams.targetAccount
         ).signAndSend(signer);
 
         return txHash;
     }
+
+    // TODO
+    // import {ISubmittableResult} from "@polkadot/types/types";
+    // import type { Observable } from 'rxjs';
+    // // TODO
+    // async detachObservable(signer: AddressOrPair, detachParams: types.DetachParams): Observable<ISubmittableResult> {
+    //     const txHash: SubmittableResultSubscription<_> = await this.api.tx.protos.detach(
+    //         detachParams.protoHashes,
+    //         detachParams.targetChain,
+    //         detachParams.targetAccount
+    //     ).signAndSend(signer);
+    //
+    //     return txHash;
+    // }
 
 
     /**

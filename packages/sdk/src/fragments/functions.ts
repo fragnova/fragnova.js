@@ -41,7 +41,7 @@ export class Fragments {
         return txHash;
     }
 
-    async detach(signer: AddressOrPair, detachParams: types.DetachParams): Promise<Hash> {
+    async detach(signer: AddressOrPair, detachParams: types.DetachInstancesParams): Promise<Hash> {
         const txHash = await this.api.tx.fragments.detach(
             detachParams.definitionHash,
             detachParams.editionIds,
