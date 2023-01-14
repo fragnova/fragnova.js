@@ -41,21 +41,17 @@ export class Protos {
      *
      */
     async upload(signer: AddressOrPair, uploadParams: types.UploadParams): Promise<any> {
-        try {
-            const txHash = await this.api.tx.protos.upload(
-                uploadParams.references as Vec<U8aFixed>,
-                uploadParams.category as ProtosCategories,
-                uploadParams.tags,
-                uploadParams.linkedAsset,
-                uploadParams.license,
-                uploadParams.cluster,
-                uploadParams.data
-            ).signAndSend(signer);
+        const txHash = await this.api.tx.protos.upload(
+            uploadParams.references as Vec<U8aFixed>,
+            uploadParams.category as ProtosCategories,
+            uploadParams.tags,
+            uploadParams.linkedAsset,
+            uploadParams.license,
+            uploadParams.cluster,
+            uploadParams.data
+        ).signAndSend(signer);
 
-            return txHash;
-        } catch(e){
-            console.log('Error: ' + e);
-        }
+        return txHash;
     }
 
     async detach(signer: AddressOrPair, detachParams: types.DetachProtosParams): Promise<Hash> {
