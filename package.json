@@ -3,6 +3,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "build": "npm run build --workspace=packages/types && tsc"
+  },
   "name": "fragnova.js",
   "devDependencies": {
     "lerna": "^6.4.1"
