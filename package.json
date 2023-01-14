@@ -1,12 +1,7 @@
 {
   "private": true,
-  "author": "Fragcolor Pte. Ltd",
-  "version": "0.0.1",
-  "description": "",
   "workspaces": [
-    "./packages/types",
-    "./packages/api",
-    "./packages/sdk"
+    "packages/*"
   ],
   "name": "fragnova.js",
   "devDependencies": {
