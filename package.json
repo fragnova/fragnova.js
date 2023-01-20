@@ -4,7 +4,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspace=packages/types && tsc"
+    "build": "npm run build --workspace=packages/types && tsc",
+    "publish-fragnova-packages": "cd packages/types && npm publish && cd ../api && npm publish && cd ../sdk && npm publish"
   },
   "name": "fragnova.js",
   "devDependencies": {
