@@ -12,6 +12,12 @@ export type Categories = {
     binary?: 'wasmProgram' | 'wasmReactor' | 'blendFile',
 };
 
+export type ProtoData = {
+    Local?: string | Uint8Array,
+    Arweave?: string | Uint8Array,
+    Ipfs?: string | Uint8Array,
+}
+
 /**
  * ProtoUploadFuncParams Parameters
  */
@@ -44,7 +50,7 @@ export interface UploadParams {
     /**
      * The data of the proto as string.
      */
-    data: string | Uint8Array;
+    data: ProtoData;
 }
 
 type SupportedChains = "EthereumMainnet" | "EthereumRinkeby" | "EthereumGoerli";

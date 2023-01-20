@@ -3,7 +3,7 @@ import { Vec, U8aFixed } from '@polkadot/types-codec';
 import { AddressOrPair } from '@polkadot/api/types';
 import { Hash } from '@polkadot/types/interfaces';
 
-import { ProtosCategories } from "@polkadot/types/lookup";
+import { ProtosCategories, PalletProtosProtoData } from "@polkadot/types/lookup";
 import {
     GetProtosParams as ClamorGetProtosParams,
     GetGenealogyParams as ClamorGetGenealogyParams,
@@ -48,7 +48,7 @@ export class Protos {
             uploadParams.linkedAsset,
             uploadParams.license,
             uploadParams.cluster,
-            uploadParams.data
+            uploadParams.data as PalletProtosProtoData
         ).signAndSend(signer);
 
         return txHash;
