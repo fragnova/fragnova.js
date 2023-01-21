@@ -8,7 +8,7 @@ This is a NPM Workspace (i.e Mono-Repo) that contains the code of the following 
 3. [@fragnova/sdk](https://www.npmjs.com/package/@fragnova/sdk)
 
 
-## Building this NPM Packages
+## Building the NPM Packages
 
 To build the NPM Packages in this Mono-Repo, you must go to the root directory of this repository and run the following command:
 ```shell
