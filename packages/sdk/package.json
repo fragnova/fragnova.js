@@ -1,0 +1,28 @@
+{
+  "name": "@fragnova/sdk",
+  "author": "Fragcolor Pte. Ltd",
+  "version": "1.0.10-alpha.0",
+  "description": "SDK for interacting with the Fragnova Blockchain",
+  "main": "src/index.js",
+  "license": "MIT",
+  "keywords": [
+    "fragnova",
+    "fragcolor"
+  ],
+  "dependencies": {
+    "@fragnova/api": "1.0.10-alpha.0",
+    "@fragnova/types": "1.0.10-alpha.0",
+    "@polkadot/api": "^9.8.2"
+  },
+  "devDependencies": {
+    "typedoc": "^0.23.21"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fragcolor-xyz/fragnova.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fragcolor-xyz/fragnova.js/issues"
+  },
+  "homepage": "https://github.com/fragcolor-xyz/fragnova.js#readme"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@fragnova/types",
+  "author": "Fragcolor Pte. Ltd",
+  "version": "1.0.10-alpha.0",
+  "description": "Polkadot.js Type Definitions (https://polkadot.js.org/docs/api/examples/promise/typegen/) of the Fragnova Blockchain",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "yarn generate:defs && yarn generate:meta",
+    "generate:defs": "ts-node --skip-project ../../node_modules/.bin/polkadot-types-from-defs --package @fragnova/types/interfaces --input ./src/interfaces --endpoint ./fragnova.json",
+    "generate:meta": "ts-node --skip-project ../../node_modules/.bin/polkadot-types-from-chain --package @fragnova/types/interfaces --endpoint ./fragnova.json --output ./src/interfaces",
+    "lint": "tsc --noEmit --pretty"
+  },
+  "license": "MIT",
+  "keywords": [
+    "fragnova",
+    "fragcolor"
+  ],
+  "dependencies": {
+    "@polkadot/api": "^9.8.2",
+    "typedoc": "^0.23.21"
+  },
+  "devDependencies": {
+    "@polkadot/typegen": "^9.8.2",
+    "concurrently": "^7.6.0",
+    "ts-node": "^8.10.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fragcolor-xyz/fragnova.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fragcolor-xyz/fragnova.js/issues"
+  },
+  "homepage": "https://github.com/fragcolor-xyz/fragnova.js#readme"
+}

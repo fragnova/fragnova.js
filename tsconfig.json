@@ -1,0 +1,33 @@
+{
+  "exclude": [
+    "build/**/*",
+    "**/build/**/*",
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "CommonJS",
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "paths": {
+      "@fragnova/api": ["packages/api/src"],
+      "@fragnova/api/*": ["packages/api/src/*"],
+
+      "@fragnova/types": ["packages/types/src"],
+      // this is the package name we use (in the interface imports, --package for generators). See: https://polkadot.js.org/docs/api/examples/promise/typegen/#typescript-config
+      "@fragnova/types/*": ["packages/types/src/*"],
+      // here we replace the @polkadot/api augmentation with our own, generated from chain. See: https://polkadot.js.org/docs/api/examples/promise/typegen/#typescript-config
+      "@polkadot/api/augment": ["packages/types/src/interfaces/augment-api.ts"],
+      // replace the augmented types with our own, as generated from definitions. See: https://polkadot.js.org/docs/api/examples/promise/typegen/#typescript-config
+      "@polkadot/types/augment": ["packages/types/src/interfaces/augment-types.ts"],
+
+      "@fragnova/sdk": [ "packages/sdk/src"],
+      "@fragnova/sdk/*": ["packages/sdk/src/*"]
+    },
+    "skipLibCheck": true,
+    "typeRoots": [
+      "./node_modules/@polkadot/ts",
+      "./node_modules/@types"
+    ]
+  }
+}

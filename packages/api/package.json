@@ -1,0 +1,24 @@
+{
+  "name": "@fragnova/api",
+  "author": "Fragcolor Pte. Ltd",
+  "version": "1.0.10-alpha.0",
+  "description": "The API object (https://polkadot.js.org/docs/api) that can be used to interact with the Fragnova Blockchain",
+  "main": "src/index.js",
+  "license": "MIT",
+  "keywords": [
+    "fragnova",
+    "fragcolor"
+  ],
+  "dependencies": {
+    "@fragnova/types": "1.0.10-alpha.0",
+    "@polkadot/api": "^9.8.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fragcolor-xyz/fragnova.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fragcolor-xyz/fragnova.js/issues"
+  },
+  "homepage": "https://github.com/fragcolor-xyz/fragnova.js#readme"
+}
